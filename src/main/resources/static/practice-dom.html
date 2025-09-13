@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <img id="light" src="images/bulboff.png" width="316" height="356"  alt="Can't load this picture"/><br>
+    <div> Practice of DOM</div><br>
+    <div> Inki </div><br>
+
+    <label>
+        <input type="checkbox" name="hobby"> Movie
+        <input type="checkbox" name="hobby"> Travel
+        <input type="checkbox" name="hobby"> Music
+    </label>
+    <br>
+
+</body>
+
+<script>
+    // 通过DOM对象实现以下操作
+    // 点亮灯泡
+    var light = document.getElementById("light");
+    light.src = "images/bulbon.png"
+    // 给所有div标签的标签体内容后加上：very good（红色）
+    var divArr = document.getElementsByTagName("div")
+    for (let i = 0; i < divArr.length; i++) {
+        // i += <font color="red"> very good </font>
+        const element = divArr[i];
+        // alert(element.innerHTML)
+        element.innerHTML += "<font color='red'> very good</font>"
+    }
+    // 使所有复选框呈现被选中的状态
+    var boxArr = document.getElementsByName("hobby")
+    for (let i = 0; i < boxArr.length; i++) {
+        // alert(boxArr.length)
+        const element = boxArr[i];
+        element.checked = true;
+    }
+</script>
+</html>

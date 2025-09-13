@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise List</title>
+</head>
+<body>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Calories</th>
+        <th>Type</th>
+        <th>操作</th>
+    </tr>
+    <tr th:each="exercise : ${exercises}">
+        <td th:text="${exercise.id}"></td>
+        <td th:text="${exercise.date}"></td>
+        <td th:text="${exercise.calories}"></td>
+        <td th:text="${exercise.exerciseType.exerciseTypeName}"></td>
+        <td>
+            <a th:href="@{'/exercises/' + ${exercise.id} + '/edit'}">编辑</a>
+        </td>
+    </tr>
+</table>
+
+<a href="/exercises/new">新增运动记录</a>
+</body>
+</html>
