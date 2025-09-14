@@ -13,7 +13,7 @@ public class ExerciseType{
 
     @Setter
     @Getter
-    @Column(name = "exerciseTypeName", nullable = false, unique = true)
+    @Column(name = "exercise_type_name", nullable = false, unique = true)
     private String exerciseTypeName;
 
     @Override

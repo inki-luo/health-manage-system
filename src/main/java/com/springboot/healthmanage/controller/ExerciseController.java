@@ -46,7 +46,7 @@ public class ExerciseController {
     @GetMapping
     public String listExercises(ModelMap model) {
         model.put("exercises", exercises.findAll()); // 查询所有记录
-        return "list";  // 返回一个 Thymeleaf 模板
+        return "/exercises/exerciseList";  // 返回一个 Thymeleaf 模板
     }
 
 
