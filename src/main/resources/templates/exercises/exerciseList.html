@@ -9,24 +9,81 @@
 <body>
 <div th:replace="fragments/navigationBar :: navbar"></div>
 
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Date</th>
-        <th>Calories</th>
-        <th>Type</th>
-        <th>操作</th>
-    </tr>
-    <tr th:each="exercise : ${exercises}">
-        <td th:text="${exercise.id}"></td>
-        <td th:text="${exercise.date}"></td>
-        <td th:text="${exercise.calories}"></td>
-        <td th:text="${exercise.exerciseType.exerciseTypeName}"></td>
-        <td>
-            <a th:href="@{'/exercises/' + ${exercise.id} + '/edit'}">编辑</a>
-        </td>
-    </tr>
-</table>
+<div class="container">
+
+    <div class="header-row">
+        <h2>Exercise Records</h2>
+
+        <!--    筛选表单    -->
+        <form th:action="@{/exercises}" method="get" style="margin-bottom: 20px;">
+<!--            <lable for="type">test</lable>-->
+            <select id="exercisetype" name="exercisetype">
+                <!-- 默认 "All" -->
+                <option th:value="All" th:selected="${selectedType == 'All'}">All</option>
+                <!-- 数据库中已有的类型 -->
+                <option th:each="t : ${exerciseTypes}"
+                        th:value="${t}"
+                        th:text="${t}"
+                        th:selected="${t == selectedType}">
+                </option>
+            </select>
+            <button type="submit">Filter</button>
+        </form>
+    </div>
+
+
+    <!--    遍历每个月   -->
+    <div th:each="entry : ${exercisesByMonth}">
+        <h3 th:text="${#temporals.format(entry.key, 'yyyy-MM')}">2025-09</h3>
+
+        <!--    当月表格    -->
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Calories</th>
+                    <th>Type</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <!--   遍历该月的运动记录   -->
+            <tbody>
+                <tr th:each="exercise : ${entry.value}">
+                    <td th:text="${exercise.id}"></td>
+                    <td th:text="${#temporals.format(exercise.date, 'yyyy-MM-dd HH:mm')}"></td>
+                    <td th:text="${exercise.calories}"></td>
+                    <td th:text="${exercise.exerciseType.exerciseTypeName}"></td>
+                    <td>
+                        <a th:href="@{'/exercises/' + ${exercise.id} + '/edit'}">编辑</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+
+<!--<table>-->
+<!--    <tr>-->
+<!--        <th>ID</th>-->
+<!--        <th>Date</th>-->
+<!--        <th>Calories</th>-->
+<!--        <th>Type</th>-->
+<!--        <th>操作</th>-->
+<!--    </tr>-->
+<!--    <tr th:each="exercise : ${exercises}">-->
+<!--        <td th:text="${exercise.id}"></td>-->
+<!--        <td th:text="${exercise.date}"></td>-->
+<!--        <td th:text="${exercise.calories}"></td>-->
+<!--        <td th:text="${exercise.exerciseType.exerciseTypeName}"></td>-->
+<!--        <td>-->
+<!--            <a th:href="@{'/exercises/' + ${exercise.id} + '/edit'}">编辑</a>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--</table>-->
 
 <a href="/exercises/new">新增运动记录</a>
 </body>

@@ -4,6 +4,8 @@ import com.springboot.healthmanage.entity.Exercise;
 import com.springboot.healthmanage.mapper.ExerciseRepository;
 import com.springboot.healthmanage.entity.ExerciseType;
 import com.springboot.healthmanage.mapper.ExerciseTypeRepository;
+import com.springboot.healthmanage.service.ExerciseService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -11,83 +13,152 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 @Controller
 @RequestMapping("/exercises")
+@RequiredArgsConstructor
 public class ExerciseController {
 
     private static final String VIEWS_EXERCISE_FORM = "createOrUpdateForm";
-
-    private final ExerciseRepository exercises;
-    private final ExerciseTypeRepository types;
-
-    public ExerciseController(ExerciseRepository exercises, ExerciseTypeRepository types) {
-        this.exercises = exercises;
-        this.types = types;
-    }
+    private final ExerciseService exerciseService;
+    private final ExerciseTypeRepository exerciseTypeRepository;
 
     /** 在模型中放入运动类型（下拉框用） */
     @ModelAttribute("types")
     public Collection<ExerciseType> popularExerciseTypes() {
-        return this.types.findAllByOrderByExerciseTypeNameAsc();
+        return this.exerciseTypeRepository.findAllByOrderByExerciseTypeNameAsc();
     }
 
-    /** 在模型中放入某条运动记录（编辑时用） */
-    @ModelAttribute("exercise")
-    public Exercise findExercise(@PathVariable(name = "exerciseId", required = false) Long exerciseId) {
-        if (exerciseId == null) {
-            return new Exercise();
-        }
-        return this.exercises.findExerciseById(exerciseId)
-                .orElseThrow(() -> new IllegalArgumentException("Exercise not found with id: " + exerciseId));
-    }
-
-//    显示运动记录列表
+    // ===================== 列表页 =====================
+    //    显示运动记录列表
     @GetMapping
-    public String listExercises(ModelMap model) {
-        model.put("exercises", exercises.findAll()); // 查询所有记录
+    public String listExercises(@RequestParam(required = false) String date,
+                                    @RequestParam(required = false, defaultValue = "All") String type,
+                                    ModelMap model) {
+        // 从 Service 获取过滤后的记录
+        List<Exercise> list = exerciseService.findByFilter(date, type);
+
+        // 按月份分组
+        LinkedHashMap<?, List<Exercise>> grouped = exerciseService.groupByMonth(list);
+
+        // 将分组结果放进模型中
+        model.addAttribute("exercisesByMonth", grouped);
+        // 调用service拿到所有类型，用于下拉框选项
+        model.addAttribute("exerciseTypes", exerciseService.findAllTypeNames());
+        // 将用户选择的筛选条件放入model
+        model.addAttribute("selectedDate", date);
+        model.addAttribute("selectedType", type);
+
         return "/exercises/exerciseList";  // 返回一个 Thymeleaf 模板
     }
 
+//    // ===================== 新增 =====================
+//    @GetMapping("/new")
+//    public String initCreationForm(Model model) {
+//        model.addAttribute("exercise", new Exercise());
+//        return VIEWS_EXERCISE_FORM;
+//    }
+//
+//    @PostMapping("/new")
+//    public String processCreationForm(@ModelAttribute("exercise") Exercise exercise,
+//                                      BindingResult result,
+//                                      RedirectAttributes redirectAttributes) {
+//
+//        if (exercise.getCalories() != null && exercise.getCalories() <= 0) {
+//            result.rejectValue("calories", "invalid", "Calories must be positive");
+//        }
+//
+//        if (result.hasErrors()) {
+//            return VIEWS_EXERCISE_FORM;
+//        }
+//
+//        exerciseService.save(exercise);
+//        redirectAttributes.addFlashAttribute("message", "New exercise has been added!");
+//        return "redirect:/exercises";
+//    }
+//
+//    // ===================== 编辑 =====================
+//    @GetMapping("/{exerciseId}/edit")
+//    public String initUpdateForm(@PathVariable("exerciseId") Long exerciseId, Model model) {
+//        Exercise exercise = exerciseService.findById(exerciseId);
+//        model.addAttribute("exercise", exercise);
+//        return VIEWS_EXERCISE_FORM;
+//    }
+//
+//    @PostMapping("/{exerciseId}/edit")
+//    public String processUpdateForm(@ModelAttribute("exercise") Exercise exercise,
+//                                    BindingResult result,
+//                                    RedirectAttributes redirectAttributes) {
+//
+//        if (exercise.getCalories() != null && exercise.getCalories() <= 0) {
+//            result.rejectValue("calories", "invalid", "Calories must be positive");
+//        }
+//
+//        if (result.hasErrors()) {
+//            return VIEWS_EXERCISE_FORM;
+//        }
+//
+//        exerciseService.save(exercise);
+//        redirectAttributes.addFlashAttribute("message", "Exercise has been updated!");
+//        return "redirect:/exercises";
+//    }
 
-    /** 处理新增提交 */
-    @PostMapping("exercises/new")
-    public String processCreationForm(Exercise exercise,
-                                      BindingResult result,
-                                      RedirectAttributes redirectAttributes) {
-
-        // 校验卡路里必须大于 0
-        if (exercise.getCalories() != null && exercise.getCalories() <= 0) {
-            result.rejectValue("calories", "invalid", "Calories must be positive");
-        }
-
-        if (result.hasErrors()) {
-            return VIEWS_EXERCISE_FORM;
-        }
-
-        this.exercises.save(exercise);
-        redirectAttributes.addFlashAttribute("message", "New exercise has been added!");
-        return "redirect:/exercises";
-    }
-
-    /** 处理编辑提交 */
-    @PostMapping("/{exerciseId}/edit")
-    public String processUpdateForm(Exercise exercise,
-                                    BindingResult result,
-                                    RedirectAttributes redirectAttributes) {
-
-        // 校验卡路里
-        if (exercise.getCalories() != null && exercise.getCalories() <= 0) {
-            result.rejectValue("calories", "invalid", "Calories must be positive");
-        }
-
-        if (result.hasErrors()) {
-            return VIEWS_EXERCISE_FORM;
-        }
-
-        this.exercises.save(exercise);
-        redirectAttributes.addFlashAttribute("message", "Exercise has been updated!");
-        return "redirect:/exercises";
-    }
+//
+//    // ===================== 新增 =====================
+//
+//    /** 在模型中放入某条运动记录（编辑时用） */
+//    @ModelAttribute("exercise")
+//    public Exercise findExercise(@PathVariable(name = "exerciseId", required = false) Long exerciseId) {
+//        if (exerciseId == null) {
+//            return new Exercise();
+//        }
+//        return this.exercises.findExerciseById(exerciseId)
+//                .orElseThrow(() -> new IllegalArgumentException("Exercise not found with id: " + exerciseId));
+//    }
+//
+//
+//
+//
+//    /** 处理新增提交 */
+//    @PostMapping("exercises/new")
+//    public String processCreationForm(Exercise exercise,
+//                                      BindingResult result,
+//                                      RedirectAttributes redirectAttributes) {
+//
+//        // 校验卡路里必须大于 0
+//        if (exercise.getCalories() != null && exercise.getCalories() <= 0) {
+//            result.rejectValue("calories", "invalid", "Calories must be positive");
+//        }
+//
+//        if (result.hasErrors()) {
+//            return VIEWS_EXERCISE_FORM;
+//        }
+//
+//        this.exercises.save(exercise);
+//        redirectAttributes.addFlashAttribute("message", "New exercise has been added!");
+//        return "redirect:/exercises";
+//    }
+//
+//    /** 处理编辑提交 */
+//    @PostMapping("/{exerciseId}/edit")
+//    public String processUpdateForm(Exercise exercise,
+//                                    BindingResult result,
+//                                    RedirectAttributes redirectAttributes) {
+//
+//        // 校验卡路里
+//        if (exercise.getCalories() != null && exercise.getCalories() <= 0) {
+//            result.rejectValue("calories", "invalid", "Calories must be positive");
+//        }
+//
+//        if (result.hasErrors()) {
+//            return VIEWS_EXERCISE_FORM;
+//        }
+//
+//        this.exercises.save(exercise);
+//        redirectAttributes.addFlashAttribute("message", "Exercise has been updated!");
+//        return "redirect:/exercises";
+//    }
 
 }
