@@ -29,23 +29,61 @@ h1, h2 {
     padding-bottom: 5px;
 }
 
-/* 标题+筛选表单 */
-.header-row {
-    display: flex;
-    /*justify-content: space-between; !* 左右分布 *!*/
-    align-items: center;           /* 垂直居中 */
-    margin-bottom: 20px;
-}
 
-.header-row h2 {
-    margin: 0;  /* 去掉默认 margin，避免对齐问题 */
+/* ========== 筛选区块 ========== */
+.filter-box {
+    display: inline-flex;   /* 内部的 form 并排 */
+    gap: 20px;              /* 两个 form 之间的间隔 */
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #ecf0f1;
 }
 
 .filter-form {
     display: flex;
-    align-items: center;
-    gap: 10px;  /* 控件之间的间隔 */
+    align-items: center;    /* 输入框、按钮垂直居中 */
+    gap: 20px;              /* 子项之间的间隔 */
+    flex-wrap: wrap;        /* 窗口窄时自动换行 */
 }
+
+.filter-item {
+    display: flex;
+    flex-direction: column; /* 标签在上，输入框/下拉框在下 */
+    font-size: 14px;
+}
+
+.filter-item label {
+    margin-bottom: 4px;
+    font-weight: bold;
+}
+
+.filter-item input,
+.filter-item select {
+    padding: 6px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* ========== 按钮样式（Search & Reset 统一） ========== */
+.filter-box button {
+    padding: 6px 14px;
+    height: 32px;             /* 固定高度，保证对齐 */
+    line-height: 1.2;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;   /* 默认白色背景 */
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.filter-box button:hover {
+    background-color: #f0f0f0;
+    border-color: #999;
+}
+
 
 p {
     margin: 10px 0;
@@ -146,4 +184,18 @@ tr:hover {
 /* 鼠标 hover 高亮 */
 .styled-table tr:hover {
     background-color: #bdc3c7;
+}
+
+/* ===== 总结框 ===== */
+.summary-box {
+    margin: 20px 0;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #fdfdfd;
+}
+
+.summary-box p {
+    font-size: 14px;
+    margin: 6px 0;
 }

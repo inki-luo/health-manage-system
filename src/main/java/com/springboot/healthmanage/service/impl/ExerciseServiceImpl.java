@@ -31,25 +31,27 @@ public class ExerciseServiceImpl implements ExerciseService {
         // フィルタ条件によってDB検索を分岐
         boolean allType = (exercise_type_name == null || exercise_type_name.isBlank() || "All".equalsIgnoreCase(exercise_type_name));
 
+        // 条件なし → 全件（新しい順）
         if (date == null && allType) {
-            // 条件なし → 全件（新しい順）
             return exerciseRepository.findAllOrderByDateDesc();
         }
 
+        // 日付のみ
         if (date != null && allType) {
-            // 日付のみ
-            return exerciseRepository.findExerciseByDate(date);
+            LocalDateTime start = date.atStartOfDay();
+            LocalDateTime end = date.plusDays(1).atStartOfDay();
+            return exerciseRepository.findByDateBetween(start, end);
         }
 
+        // 種別のみ
         if (date == null) {
-            // 種別のみ
             return exerciseRepository.findByExerciseType_ExerciseTypeName(exercise_type_name);
         }
 
         // 日付 + 種別
         LocalDateTime start = date.atStartOfDay();
         LocalDateTime end = date.plusDays(1).atStartOfDay();
-        return exerciseRepository.findExerciseByTypeAndDate(exercise_type_name, date);
+        return exerciseRepository.findExerciseByTypeAndDate(exercise_type_name, start, end);
     }
 
     @Override
@@ -80,6 +82,18 @@ public class ExerciseServiceImpl implements ExerciseService {
     public List<String> findAllTypeNames() {
         // DB 登録済みの運動種別名（アルファベット順）
         return exerciseTypeRepository.findAllExerciseTypeNames();
+    }
+
+    @Override
+    public Integer getCaloriesBurnedYesterday() {
+        LocalDate yesterday = LocalDate.now().minusDays(1);
+        LocalDateTime start = yesterday.atStartOfDay();
+        LocalDateTime end = yesterday.plusDays(1).atStartOfDay();
+        return exerciseRepository
+                .findByDateBetween(start, end)
+                .stream()
+                .mapToInt(Exercise::getKilocalories)
+                .sum();
     }
 
 }

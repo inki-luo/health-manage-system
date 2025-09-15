@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Main page</title>
+    <link rel="stylesheet" href="/css/healthmanage.css">
+</head>
+
+<body>
+
+<div th:replace="fragments/navigationBar :: navbar"></div>
+
+<div class="container">
+    <div class="summary-box">
+        <h2>昨日总结</h2>
+        <p>运动消耗: <span th:text="${burned}"></span> kcal</p>
+        <!--    <p>饮食摄入: <span th:text="${intake}"></span> kcal</p>-->
+        <p>饮食摄入：1500kcal</p>
+        <!--    <p>-->
+        <!--        热量差值:-->
+        <!--        <span th:text="${diff}"></span> kcal-->
+        <!--        (<span th:text="${diff > 0 ? '盈余' : '缺口'}"></span>)-->
+        <!--    </p>-->
+        <p>基础代谢：1400kcal</p>
+        <p>热量差值：xxxx</p>
+    </div>
+    <div class="summary-box">
+        <h2>近日趋势</h2>
+        <p>生成近7日的热量消耗/摄入趋势图</p>
+    </div>
+    <div class="summary-box">
+        <h2>Recent Records</h2>
+        <p>插入最近5条运动/饮食记录</p>
+    </div>
+    <div class="summary-box">
+        <h2>快速入口</h2>
+        <p>新建运动记录、新建饮食记录的入口链接</p>
+    </div>
+</div>
+
+</body>
+
+
+
+</html>

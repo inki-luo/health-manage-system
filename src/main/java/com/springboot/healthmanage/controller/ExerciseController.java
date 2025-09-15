@@ -12,9 +12,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.time.YearMonth;
+import java.util.*;
 
 @Controller
 @RequestMapping("/exercises")
@@ -43,8 +42,24 @@ public class ExerciseController {
         // 按月份分组
         LinkedHashMap<?, List<Exercise>> grouped = exerciseService.groupByMonth(list);
 
-        // 将分组结果放进模型中
+        // 生成汇总信息：每月运动次数 & 消耗
+        Map<YearMonth, Map<String, Object>> summaries = new LinkedHashMap<>();
+        grouped.forEach((ym, exercises) -> {
+            int count = exercises.size();
+            int totalCalories = exercises.stream()
+                    .mapToInt(e -> e.getKilocalories() == null ? 0 : e.getKilocalories())
+                    .sum();
+
+            Map<String, Object> summary = new HashMap<>();
+            summary.put("count", count);
+            summary.put("totalCalories", totalCalories);
+            summaries.put((YearMonth) ym, summary);
+        });
+
+        // 将分组结果放进模型
         model.addAttribute("exercisesByMonth", grouped);
+        // 将月份运动类型总结放进模型
+        model.addAttribute("summaries", summaries);
         // 调用service拿到所有类型，用于下拉框选项
         model.addAttribute("exerciseTypes", exerciseService.findAllTypeNames());
         // 将用户选择的筛选条件放入model

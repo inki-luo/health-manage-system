@@ -19,7 +19,7 @@ public class Exercise {
 
     @Getter
     @Setter
-    private Integer calories;
+    private Integer kilocalories;
 
     @Setter
     @ManyToOne

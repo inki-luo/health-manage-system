@@ -19,4 +19,6 @@ public interface ExerciseService {
     LinkedHashMap<YearMonth, List<Exercise>> groupByMonth(List<Exercise> exercises);
 
     List<String> findAllTypeNames();
+
+    Integer getCaloriesBurnedYesterday();
 }
