@@ -25,4 +25,4 @@ cd health-manage-system
 java -jar target/*.jar
 
 http://localhost:8888からトップページをアクセスできます。
-![toppage](https://github.com/inki-luo/health-manage-system/blob/main/images/topPage.png)
+![image](https://github.com/inki-luo/health-manage-system/blob/main/images/topPage.png)
