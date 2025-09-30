@@ -24,5 +24,18 @@ cd health-manage-system
 ./mvnw package
 java -jar target/*.jar
 ```
-[link](http://localhost:8888)からトップページをアクセスできます。
+[http://localhost:8888](http://localhost:8888)からトップページをアクセスできます。
 ![image](/images/topPage.png)
+
+## その他の画面
+### 運動記録の検索結果
++ 記録した運動データを一覧表示する画面です。  
+日付・運動の種類・消費カロリーなどを確認できます。
+![運動記録の検索結果](images/exerciseListAll.png)
+検索条件を入れ、`search`ボタンをクリックすると、絞り込み結果が表示されます。
+![運動記録の絞り込み結果](images/exerciseListSearch.png)
+
+### 運動記録フォーム
++ 新しい運動記録を追加する画面です。  
+運動の種類、時間、消費カロリーを入力して保存します。
+![運動記録フォーム](images/addExerciseRecord.png)
