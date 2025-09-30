@@ -96,4 +96,9 @@ public class ExerciseServiceImpl implements ExerciseService {
                 .sum();
     }
 
+    @Override
+    public void saveExerciseRecord(Exercise exercise) {
+        exerciseRepository.save(exercise);
+    }
+
 }

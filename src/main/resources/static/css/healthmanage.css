@@ -29,6 +29,35 @@ h1, h2 {
     padding-bottom: 5px;
 }
 
+/* ========== 页面标题 ========== */
+.page-header {
+    display: flex;
+    justify-content: flex-start;  /* 标题和按钮都靠左 */
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 10px;
+}
+
+.page-header h2 {
+    margin: 0;   /* 去掉标题多余间距 */
+}
+
+.btn-add {
+    padding: 6px 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;   /* 默认白色背景 */
+    cursor: pointer;
+    font-size: 12px;
+    text-decoration: none;    /* 去掉下划线 */
+    color: #333;
+}
+
+.btn-add:hover {
+    background-color: #f0f0f0;
+    border-color: #999;
+}
+
 
 /* ========== 筛选区块 ========== */
 .filter-box {
@@ -89,6 +118,60 @@ p {
     margin: 10px 0;
     line-height: 1.6;
 }
+
+/* ========== 表单样式 ========== */
+.form-box {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.form-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.form-item label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.form-item input,
+.form-item select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* 按钮样式 */
+.form-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.form-actions button {
+    padding: 6px 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;   /* 默认白色背景 */
+    cursor: pointer;
+    font-size: 16px;
+    /*font-weight: bold;*/
+    color: #333;
+}
+
+.form-actions button:hover {
+    background-color: #f0f0f0;
+    border-color: #999;
+}
+
 
 /* ===== 导航栏 ===== */
 .navbar {
@@ -198,4 +281,26 @@ tr:hover {
 .summary-box p {
     font-size: 14px;
     margin: 6px 0;
+}
+
+.summary-content {
+    display: flex;
+    align-items: center;      /* 垂直居中对齐 */
+    justify-content: space-between;
+    gap: 20px;                /* 左右留空隙 */
+}
+
+.summary-text {
+    flex: 1;                  /* 左侧文字占满剩余空间 */
+    font-size: 14px;
+}
+
+.summary-chart {
+    flex: 0 0 200px;           /* 固定宽度 200px */
+    height: 200px;             /* 高度 200px */
+}
+
+.summary-chart canvas {
+    width: 100% !important;   /* 让 Chart.js 适应容器 */
+    height: 100% !important;
 }

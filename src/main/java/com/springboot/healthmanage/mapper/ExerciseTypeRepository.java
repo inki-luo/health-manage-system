@@ -13,9 +13,11 @@ public interface ExerciseTypeRepository extends JpaRepository<ExerciseType, Long
      */
 //    @Query("SELECT etype FROM ExerciseType et ORDER BY etype.exerciseTypeName")
 //    List<ExerciseType> findExerciseTypes();
-    List<ExerciseType> findAllByOrderByExerciseTypeNameAsc();
+//    List<ExerciseType> findAllByOrderByExerciseTypeNameAsc();
 
     // 全ての種別名（アルファベット順）
     @Query("SELECT t.exerciseTypeName FROM ExerciseType t ORDER BY t.exerciseTypeName asc")
     List<String>findAllExerciseTypeNames();
+
+    List<ExerciseType> findAllByOrderByExerciseTypeNameAsc();
 }

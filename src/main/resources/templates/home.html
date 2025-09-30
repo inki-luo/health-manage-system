@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Main page</title>
     <link rel="stylesheet" href="/css/healthmanage.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 </head>
 
 <body>
@@ -12,29 +13,74 @@
 
 <div class="container">
     <div class="summary-box">
-        <h2>昨日总结</h2>
-        <p>运动消耗: <span th:text="${burned}"></span> kcal</p>
-        <!--    <p>饮食摄入: <span th:text="${intake}"></span> kcal</p>-->
-        <p>饮食摄入：1500kcal</p>
-        <!--    <p>-->
-        <!--        热量差值:-->
-        <!--        <span th:text="${diff}"></span> kcal-->
-        <!--        (<span th:text="${diff > 0 ? '盈余' : '缺口'}"></span>)-->
-        <!--    </p>-->
-        <p>基础代谢：1400kcal</p>
-        <p>热量差值：xxxx</p>
+        <h2>Yesterday Summary</h2>
+        <div class="summary-content">
+            <div class="summary-text">
+                <p>Exercise Burned: 244kcal</p>
+                <!--    <p>饮食摄入: <span th:text="${intake}"></span> kcal</p>-->
+                <p>Food Intake：1500kcal</p>
+                <!--    <p>-->
+                <!--        热量差值:-->
+                <!--        <span th:text="${diff}"></span> kcal-->
+                <!--        (<span th:text="${diff > 0 ? '盈余' : '缺口'}"></span>)-->
+                <!--    </p>-->
+                <p>BMR：1400kcal</p>
+<!--                <p>Calorie Balance｀：xxxx</p>-->
+            </div>
+            <div class="summary-chart">
+                <canvas id="yesterdayChart" width="250" height="250"></canvas>
+            </div>
+        </div>
     </div>
+    <!--    圆环图chart.js脚本   -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const intake = 1400;
+        /*[[${intake}]]*/
+        const exerciseBurned = 244;
+        /*[[${exerciseBurned}]]*/
+        const bmr = 1400;
+        /*[[${bmr}]]*/
+        // console.log("Chart Data:", intake, exerciseBurned, bmr);
+
+        const ctx = document.getElementById('yesterdayChart').getContext('2d');
+        new Chart(ctx, {
+            type: "doughnut",
+            data: {
+                labels: ['Intake', 'Exercise', 'BMR'],
+                datasets: [{
+                    label: 'Calories(kcal)',
+                    data: [intake, exerciseBurned, bmr],
+                    backgroundColor: [
+                        '#e74c3c', // Intake 红
+                        '#2ecc71', // Exercise 绿
+                        '#3498db'  // BMR 蓝
+                    ]
+                }]
+            },
+
+            // options: {
+            //     title: {
+            //         display: true,
+            //         text: "World Wide Wine Production"
+            //     }
+            // }
+        });
+    </script>
+
+
+
     <div class="summary-box">
-        <h2>近日趋势</h2>
-        <p>生成近7日的热量消耗/摄入趋势图</p>
+        <h2>Past 7 Days Trend</h2>
+<!--        <p>生成近7日的热量消耗/摄入趋势图</p>-->
     </div>
     <div class="summary-box">
         <h2>Recent Records</h2>
-        <p>插入最近5条运动/饮食记录</p>
+<!--        <p>插入最近5条运动/饮食记录</p>-->
     </div>
     <div class="summary-box">
-        <h2>快速入口</h2>
-        <p>新建运动记录、新建饮食记录的入口链接</p>
+        <h2>Quick Access</h2>
+<!--        <p>新建运动记录、新建饮食记录的入口链接</p>-->
     </div>
 </div>
 

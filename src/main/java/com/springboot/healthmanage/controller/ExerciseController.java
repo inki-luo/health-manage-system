@@ -1,12 +1,13 @@
 package com.springboot.healthmanage.controller;
 
 import com.springboot.healthmanage.entity.Exercise;
-import com.springboot.healthmanage.mapper.ExerciseRepository;
 import com.springboot.healthmanage.entity.ExerciseType;
 import com.springboot.healthmanage.mapper.ExerciseTypeRepository;
 import com.springboot.healthmanage.service.ExerciseService;
+import com.springboot.healthmanage.service.ExerciseTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +21,9 @@ import java.util.*;
 @RequiredArgsConstructor
 public class ExerciseController {
 
-    private static final String VIEWS_EXERCISE_FORM = "createOrUpdateForm";
     private final ExerciseService exerciseService;
     private final ExerciseTypeRepository exerciseTypeRepository;
+    private final ExerciseTypeService exerciseTypeService;
 
     /** 在模型中放入运动类型（下拉框用） */
     @ModelAttribute("types")
@@ -61,7 +62,7 @@ public class ExerciseController {
         // 将月份运动类型总结放进模型
         model.addAttribute("summaries", summaries);
         // 调用service拿到所有类型，用于下拉框选项
-        model.addAttribute("exerciseTypes", exerciseService.findAllTypeNames());
+        model.addAttribute("exerciseTypes", exerciseTypeService.findAllExerciseTypeNames());
         // 将用户选择的筛选条件放入model
         model.addAttribute("selectedDate", date);
         model.addAttribute("selectedType", type);
@@ -69,30 +70,39 @@ public class ExerciseController {
         return "/exercises/exerciseList";  // 返回一个 Thymeleaf 模板
     }
 
-//    // ===================== 新增 =====================
-//    @GetMapping("/new")
-//    public String initCreationForm(Model model) {
-//        model.addAttribute("exercise", new Exercise());
-//        return VIEWS_EXERCISE_FORM;
-//    }
-//
-//    @PostMapping("/new")
-//    public String processCreationForm(@ModelAttribute("exercise") Exercise exercise,
-//                                      BindingResult result,
-//                                      RedirectAttributes redirectAttributes) {
-//
-//        if (exercise.getCalories() != null && exercise.getCalories() <= 0) {
-//            result.rejectValue("calories", "invalid", "Calories must be positive");
+    // ===================== 新增 =====================
+    @GetMapping("/new")
+    public String initCreationForm(Model model) {
+        model.addAttribute("exercise", new Exercise());
+        // 下拉框需要的类型
+        model.addAttribute("types", exerciseTypeService.findAllExerciseTypes());
+        return "/exercises/createOrUpdateForm";
+    }
+
+    @PostMapping("/new")
+    public String processCreationForm(@ModelAttribute("exercise") Exercise exercise,
+                                      BindingResult result,
+                                      RedirectAttributes redirectAttributes) {
+        // 检查卡路里大于0
+        if (exercise.getKilocalories() != null && exercise.getKilocalories() <= 0) {
+            result.rejectValue("kilocalories", "invalid", "Calories must be positive");
+        }
+
+        if (result.hasErrors()) {
+            return "/exercises/createOrUpdateForm";
+        }
+
+//        // 检查是否选择type
+//        if (exercise.getExerciseType() == null || exercise.getExerciseType().getId() == null) {
+//            result.rejectValue("exerciseType", "invalid", "Exercise Type must be selected");
+//            return "exercises/createOrUpdateForm";
 //        }
-//
-//        if (result.hasErrors()) {
-//            return VIEWS_EXERCISE_FORM;
-//        }
-//
-//        exerciseService.save(exercise);
-//        redirectAttributes.addFlashAttribute("message", "New exercise has been added!");
-//        return "redirect:/exercises";
-//    }
+
+        // 保存到数据库
+        exerciseService.saveExerciseRecord(exercise);
+        redirectAttributes.addFlashAttribute("message", "New exercise has been added");
+        return "redirect:/exercises";
+    }
 //
 //    // ===================== 编辑 =====================
 //    @GetMapping("/{exerciseId}/edit")

@@ -21,4 +21,6 @@ public interface ExerciseService {
     List<String> findAllTypeNames();
 
     Integer getCaloriesBurnedYesterday();
+
+    void saveExerciseRecord(Exercise exercise);
 }

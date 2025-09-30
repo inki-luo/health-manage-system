@@ -8,6 +8,7 @@ import lombok.Setter;
 @Table(name = "exercise_types")
 public class ExerciseType{
     @Id
+    @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 

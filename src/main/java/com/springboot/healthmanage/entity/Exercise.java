@@ -21,13 +21,10 @@ public class Exercise {
     @Setter
     private Integer kilocalories;
 
+    @Getter
     @Setter
     @ManyToOne
     @JoinColumn(name = "type_id")
     private ExerciseType exerciseType;
-    public ExerciseType getExerciseType() {
-        return exerciseType;
-    }
-
 
 }

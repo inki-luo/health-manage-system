@@ -10,7 +10,12 @@
 <div th:replace="fragments/navigationBar :: navbar"></div>
 
 <div class="container">
-    <h2>Exercise Records</h2>
+
+    <div class="page-header">
+        <h2>Exercise Records</h2>
+        <a href="exercises/new" class="btn-add">Add Record</a>
+    </div>
+
 
     <!-- 🔎 筛选区块 -->
     <div class="filter-box">
@@ -130,6 +135,6 @@
 <!--    </tr>-->
 <!--</table>-->
 
-<a href="/exercises/new">新增运动记录</a>
+<!--<a href="/exercises/new">新增运动记录</a>-->
 </body>
 </html>
