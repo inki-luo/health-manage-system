@@ -26,4 +26,3 @@ java -jar target/*.jar
 
 http://localhost:8888でアクセスできます。
 ![toppage](images/topPage.png)
-[//]: # (![toppage]&#40;https://raw.githubusercontent.com/inki-luo/health-management-system/main/static/images/topPage.png&#41;)
