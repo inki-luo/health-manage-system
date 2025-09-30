@@ -25,4 +25,4 @@ cd health-manage-system
 java -jar target/*.jar
 
 http://localhost:8888からトップページをアクセスできます。
-![image](/assets/images/topPage.png)
+![image](https://github.com/assets/images/topPage.png)
