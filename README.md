@@ -23,7 +23,8 @@ git clone https://github.com/inki-luo/health-manage-system
 cd health-manage-system
 ./mvnw package
 java -jar target/*.jar
-
+```
 http://localhost:8888からトップページをアクセスできます。
 ![image](/images/topPage.png)
-![image](https://github.com/inki-luo/health-manage-system/blob/main/images/topPage.png)
+
+[//]: # (![image]&#40;https://github.com/inki-luo/health-manage-system/blob/main/images/topPage.png&#41;)
