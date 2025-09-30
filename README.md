@@ -24,7 +24,5 @@ cd health-manage-system
 ./mvnw package
 java -jar target/*.jar
 ```
-http://localhost:8888からトップページをアクセスできます。
+[link](http://localhost:8888)からトップページをアクセスできます。
 ![image](/images/topPage.png)
-
-![image](https://github.com/inki-luo/health-manage-system/blob/main/images/topPage.png)
