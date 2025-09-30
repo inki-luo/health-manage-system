@@ -11,10 +11,10 @@
 - データの検索・編集・削除
 
 ## 技術スタック
-- **バックエンド**: Spring Boot + H2 Database  
-- **データ管理**: Spring Data JPA  
-- **フロントエンド**: HTML (Thymeleaf), Chart.js  
-- **ビルドツール**: Gradle  
+- **バックエンド**: Spring Boot + H2 Database
+- **データ管理**: Spring Data JPA
+- **フロントエンド**: HTML (Thymeleaf), Chart.js
+- **ビルドツール**: Gradle
 
 ## ローカルにセットアップ方法
 ```bash
@@ -23,3 +23,6 @@ git clone https://github.com/inki-luo/health-manage-system
 cd health-manage-system
 ./mvnw package
 java -jar target/*.jar
+
+http://localhost:8888でアクセスできます。
+![toppage](https://raw.githubusercontent.com/inki-luo/health-management-system/main/static/images/topPage.png)
