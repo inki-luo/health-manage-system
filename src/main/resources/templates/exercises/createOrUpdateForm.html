@@ -26,7 +26,7 @@
 
         <div class="form-item">
             <label for="exerciseType">Exercise Type:</label>
-            <select id="exerciseType" th:field="*{exerciseType.id}" required>
+            <select id="exerciseType" name="exerciseTypeId" required>
                 <option value="" th:text="'-- Please Select --'"
                         th:selected="${exercise.exerciseType == null}"></option>
                 <option th:each="type : ${types}"

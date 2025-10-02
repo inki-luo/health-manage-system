@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -89,18 +90,36 @@ public class ExerciseController {
         }
 
         if (result.hasErrors()) {
+            // エラー内容をログ出力
+            result.getAllErrors().forEach(error -> {
+                System.out.println("Binding Error: " + error.getObjectName() +
+                        " - Field: " + (error instanceof FieldError ? ((FieldError) error).getField() : "N/A") +
+                        " - Message: " + error.getDefaultMessage());
+            });
             return "/exercises/createOrUpdateForm";
         }
 
-//        // 检查是否选择type
-//        if (exercise.getExerciseType() == null || exercise.getExerciseType().getId() == null) {
-//            result.rejectValue("exerciseType", "invalid", "Exercise Type must be selected");
-//            return "exercises/createOrUpdateForm";
-//        }
+        // フォームからのIDでExerciseTypeエンティティをロード
+        Integer typeIdFromForm = exercise.getExerciseTypeId();
+        // IDがnullでないことを確認
+        if (typeIdFromForm  == null) {
+            result.rejectValue("exerciseTypeId", "invalid", "Exercise Type must be selected");
+            return "/exercises/createOrUpdateForm";
+        }
+
+        // データベースから完全な ExerciseType エンティティをロード
+        ExerciseType fullExerciseType = exerciseTypeService.findExerciseTypeById(typeIdFromForm);
+        if (fullExerciseType == null) {
+            // IDが見つからない場合のエラー処理 (通常は発生しないはず)
+            result.rejectValue("exerciseType", "invalid", "Invalid Exercise Type selected");
+            return "/exercises/createOrUpdateForm";
+        }
+        // ロードしたExerciseTypeをExerciseオブジェクトにセット
+        exercise.setExerciseType(fullExerciseType);
 
         // 保存到数据库
         exerciseService.saveExerciseRecord(exercise);
-        redirectAttributes.addFlashAttribute("message", "New exercise has been added");
+        redirectAttributes.addFlashAttribute("message", "A new exercise record has been added");
         return "redirect:/exercises";
     }
 //
@@ -130,41 +149,6 @@ public class ExerciseController {
 //        return "redirect:/exercises";
 //    }
 
-//
-//    // ===================== 新增 =====================
-//
-//    /** 在模型中放入某条运动记录（编辑时用） */
-//    @ModelAttribute("exercise")
-//    public Exercise findExercise(@PathVariable(name = "exerciseId", required = false) Long exerciseId) {
-//        if (exerciseId == null) {
-//            return new Exercise();
-//        }
-//        return this.exercises.findExerciseById(exerciseId)
-//                .orElseThrow(() -> new IllegalArgumentException("Exercise not found with id: " + exerciseId));
-//    }
-//
-//
-//
-//
-//    /** 处理新增提交 */
-//    @PostMapping("exercises/new")
-//    public String processCreationForm(Exercise exercise,
-//                                      BindingResult result,
-//                                      RedirectAttributes redirectAttributes) {
-//
-//        // 校验卡路里必须大于 0
-//        if (exercise.getCalories() != null && exercise.getCalories() <= 0) {
-//            result.rejectValue("calories", "invalid", "Calories must be positive");
-//        }
-//
-//        if (result.hasErrors()) {
-//            return VIEWS_EXERCISE_FORM;
-//        }
-//
-//        this.exercises.save(exercise);
-//        redirectAttributes.addFlashAttribute("message", "New exercise has been added!");
-//        return "redirect:/exercises";
-//    }
 //
 //    /** 处理编辑提交 */
 //    @PostMapping("/{exerciseId}/edit")

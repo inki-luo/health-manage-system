@@ -16,7 +16,7 @@ public class ExerciseTypeServiceImpl implements ExerciseTypeService {
     private final ExerciseTypeRepository exerciseTypeRepository;
 
     @Override
-    public ExerciseType findExerciseTypeById(Long exerciseTypeId) {
+    public ExerciseType findExerciseTypeById(Integer exerciseTypeId) {
 
         return exerciseTypeRepository.findById(exerciseTypeId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid exercise type id: " + exerciseTypeId));

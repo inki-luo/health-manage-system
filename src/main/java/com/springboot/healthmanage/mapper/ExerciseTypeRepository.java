@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface ExerciseTypeRepository extends JpaRepository<ExerciseType, Long> {
+public interface ExerciseTypeRepository extends JpaRepository<ExerciseType, Integer> {
 
     /**
      * 获取所有运动类型，并按名称排序
