@@ -73,22 +73,22 @@
         <table class="styled-table">
             <thead>
                 <tr>
-                    <th>ID</th>
+<!--                    <th>ID</th>-->
                     <th>Date</th>
-                    <th>Calories</th>
-                    <th>Type</th>
-                    <th>操作</th>
+                    <th>Calories (kcal)</th>
+                    <th>Exercise Type</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <!--   遍历该月的运动记录   -->
             <tbody>
                 <tr th:each="exercise : ${entry.value}">
-                    <td th:text="${exercise.id}"></td>
+<!--                    <td th:text="${exercise.id}"></td>-->
                     <td th:text="${#temporals.format(exercise.date, 'yyyy-MM-dd HH:mm')}"></td>
                     <td th:text="${exercise.kilocalories}"></td>
                     <td th:text="${exercise.exerciseType.exerciseTypeName}"></td>
                     <td>
-                        <a th:href="@{'/exercises/' + ${exercise.id} + '/edit'}">编辑</a>
+                        <a th:href="@{'/exercises/' + ${exercise.id} + '/edit'}">Edit</a>
                     </td>
                 </tr>
             </tbody>
