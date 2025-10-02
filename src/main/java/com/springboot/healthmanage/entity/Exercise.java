@@ -7,6 +7,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "exercise")
 public class Exercise {
     @Getter
     @Id
@@ -26,5 +27,4 @@ public class Exercise {
     @ManyToOne
     @JoinColumn(name = "type_id")
     private ExerciseType exerciseType;
-
 }

@@ -14,7 +14,7 @@
 - **バックエンド**: Spring Boot + H2 Database
 - **データ管理**: Spring Data JPA
 - **フロントエンド**: HTML (Thymeleaf), Chart.js
-- **ビルドツール**: Gradle
+- **ビルドツール**: Maven
 
 ## ローカルにセットアップ方法
 ```bash

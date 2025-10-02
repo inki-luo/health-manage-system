@@ -53,23 +53,6 @@
         </form>
     </div>
 
-<!--    &lt;!&ndash;    筛选表单    &ndash;&gt;-->
-<!--    <form th:action="@{/exercises}" method="get" style="margin-bottom: 20px;">-->
-<!--        <lable for="type">Filter by type: </lable>-->
-<!--        <select id="type" name="type">-->
-<!--            &lt;!&ndash; 默认 "All" &ndash;&gt;-->
-<!--            <option th:value="All" th:selected="${selectedType == 'All'}">All</option>-->
-<!--            &lt;!&ndash; 数据库中已有的类型 &ndash;&gt;-->
-<!--            <option th:each="t : ${exerciseTypes}"-->
-<!--                    th:value="${t}"-->
-<!--                    th:text="${t}"-->
-<!--                    th:selected="${t == selectedType}">-->
-<!--            </option>-->
-<!--        </select>-->
-<!--        <button type="submit">Search</button>-->
-<!--    </form>-->
-
-
     <!--    遍历每个月   -->
     <div th:each="entry : ${exercisesByMonth}">
         <h3 th:text="${#temporals.format(entry.key, 'yyyy-MM')}">2025-09</h3>
@@ -114,26 +97,6 @@
     </div>
 
 </div>
-
-
-<!--<table>-->
-<!--    <tr>-->
-<!--        <th>ID</th>-->
-<!--        <th>Date</th>-->
-<!--        <th>Calories</th>-->
-<!--        <th>Type</th>-->
-<!--        <th>操作</th>-->
-<!--    </tr>-->
-<!--    <tr th:each="exercise : ${exercises}">-->
-<!--        <td th:text="${exercise.id}"></td>-->
-<!--        <td th:text="${exercise.date}"></td>-->
-<!--        <td th:text="${exercise.calories}"></td>-->
-<!--        <td th:text="${exercise.exerciseType.exerciseTypeName}"></td>-->
-<!--        <td>-->
-<!--            <a th:href="@{'/exercises/' + ${exercise.id} + '/edit'}">编辑</a>-->
-<!--        </td>-->
-<!--    </tr>-->
-<!--</table>-->
 
 <!--<a href="/exercises/new">新增运动记录</a>-->
 </body>
