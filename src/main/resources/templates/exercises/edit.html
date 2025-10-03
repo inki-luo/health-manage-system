@@ -10,9 +10,9 @@
 <div th:replace="fragments/navigationBar :: navbar"></div>
 
 <div class="container">
-    <h2>Exercise Record</h2>
+    <h2>Edit Exercise Record</h2>
 
-    <form th:action="@{/exercises/update/{id}(id=${exercise.id})}" th:object="${exercise}" method="post" class="form-box">
+    <form th:action="@{/exercises/{id}/update(id=${exercise.id})}" th:object="${exercise}" method="post" class="form-box">
 
         <div class="form-item">
             <label for="date">Date:</label>
@@ -26,11 +26,10 @@
 
         <div class="form-item">
             <label for="exerciseType">Exercise Type:</label>
-            <select id="exerciseType" name="exerciseTypeId" required>
+            <select id="exerciseType" th:field="*{exerciseTypeId}" required>
                 <option th:each="type : ${types}"
                         th:value="${type.id}"
-                        th:text="${type.exerciseTypeName}"
-                        th:selected="${type.id == exercise.exerciseTypeId}">
+                        th:text="${type.exerciseTypeName}">
                 </option>
             </select>
         </div>

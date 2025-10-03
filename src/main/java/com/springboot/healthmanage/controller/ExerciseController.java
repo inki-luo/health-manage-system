@@ -126,30 +126,25 @@ public class ExerciseController {
     }
 
     // ===================== 编辑 =====================
-    @GetMapping("/edit/{id}")
+    @GetMapping("/{id}/edit")
     public String showEditForm(@PathVariable("id") Long id, Model model) {
         Exercise exercise = exerciseRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid exercise Id:" + id));
+        if (exercise.getExerciseType() != null) {
+            exercise.setExerciseTypeId(exercise.getExerciseType().getId());
+        }
+
         model.addAttribute("exercise", exercise);
         model.addAttribute("types", exerciseTypeService.findAllExerciseTypes());
         return "exercises/edit";
     }
 
     /** 处理编辑提交 */
-    @PostMapping("update/{id}")
+    @PostMapping("/{id}/update")
     public String processUpdateForm(@PathVariable("id") Long id,
-                                    @ModelAttribute Exercise exercise,
+                                    @ModelAttribute Exercise recordFromForm,
                                     BindingResult result,
                                     RedirectAttributes redirectAttributes) {
-
-        // フォームの transient フィールドから Type を再設定
-        ExerciseType type = exerciseTypeRepository.findById(exercise.getExerciseTypeId())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid type Id"));
-
-        if (exercise.getKilocalories() != null && exercise.getKilocalories()<= 0) {
-            result.rejectValue("calories", "invalid", "Calories must be positive");
-            return "/exercises/edit";
-        }
 
         if (result.hasErrors()) {
             // エラー内容をログ出力
@@ -161,10 +156,24 @@ public class ExerciseController {
             return "/exercises/edit";
         }
 
-        exercise.setExerciseType(type);
-        exercise.setId(id);     // 更新対象のIdをセット
+        ExerciseType type = exerciseTypeRepository.findById(recordFromForm.getExerciseTypeId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid type Id"));
 
-        exerciseService.saveExerciseRecord(exercise);
+        //  DBから編集されるエンティティをロード
+        Exercise recordToUpdate = exerciseRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid exercise Id:" + id));
+
+        if (recordFromForm.getKilocalories() != null && recordFromForm.getKilocalories()<= 0) {
+            result.rejectValue("kilocalories", "invalid", "Calories must be positive");
+            return "/exercises/edit";
+        }
+
+        // エンティティのフィールドを更新
+        recordToUpdate.setDate(recordFromForm.getDate());
+        recordToUpdate.setKilocalories(recordFromForm.getKilocalories());
+        recordToUpdate.setExerciseType(type);
+
+        exerciseService.saveExerciseRecord(recordToUpdate); // 更新したエンティティを保存
         redirectAttributes.addFlashAttribute("message", "An exercise record has been updated!");
         return "redirect:/exercises";
     }
