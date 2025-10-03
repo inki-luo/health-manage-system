@@ -11,7 +11,7 @@
 - データの検索・編集・削除
 
 ## 技術スタック
-- **バックエンド**: Spring Boot + H2 Database
+- **バックエンド**: Spring Boot + MySQL
 - **データ管理**: Spring Data JPA
 - **フロントエンド**: HTML (Thymeleaf), Chart.js
 - **ビルドツール**: Maven
