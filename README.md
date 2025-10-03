@@ -27,15 +27,23 @@ java -jar target/*.jar
 [http://localhost:8888](http://localhost:8888)からトップページをアクセスできます。
 ![image](/images/topPage.png)
 
-## その他の画面
-### 運動記録の検索結果
-+ 記録した運動データを一覧表示する画面です。  
-日付・運動の種類・消費カロリーなどを確認できます。
-![運動記録の検索結果](images/exerciseListAll.png)
-検索条件を入れ、`search`ボタンをクリックすると、絞り込み結果が表示されます。
-![運動記録の絞り込み結果](images/exerciseListSearch.png)
+## 機能
+### 運動記録の検索結果一覧
++ 記録した運動データを一覧表示する画面です。
+  + 日付・運動の種類・消費カロリーなどを確認できます。
+  ![運動記録の検索結果](images/exerciseListAll.png)
+  + 検索条件を入れ、`search`ボタンをクリックすると、絞り込み結果が表示されます。
+  ![日付で運動記録の絞り込み結果](images/exerciseListSearchByDate.png)
+  ![運動種類で運動記録の絞り込み結果](images/exerciseListSearchByType.png)
 
-### 運動記録フォーム
-+ 新しい運動記録を追加する画面です。  
-運動の種類、時間、消費カロリーを入力して保存します。
-![運動記録フォーム](images/addExerciseRecord.png)
+
+### 運動記録の操作
++ 新しい運動記録を追加 
+  + 運動記録一覧画面の`Add Record`ボタンを押すと、運動記録を追加するフォームに移ります。運動の種類、時間、消費カロリーを入力して保存すると、運動記録一覧画面に戻り、新しく追加された記録が確認できます。
+  ![運動記録追加フォーム](images/addExerciseRecord.png)
++ 運動記録を修正
+  + 各記録の`Edit`ボタンを押すと、運動記録を編集するフォームに移ります。運動の種類、時間、消費カロリーを編集して保存すると、運動記録一覧画面に戻り、編集された記録が確認できます。
+![運動記録修正フォーム](images/editExerciseRecord.png)
++ 運動記録を削除
+  + 各記録の`Delete`ボタンを押すと、ダイアログで再確認を行なって`OK`を押すと記録が削除されます。
+    ![運動記録の削除](images/deleteExerciseRecord.png)
