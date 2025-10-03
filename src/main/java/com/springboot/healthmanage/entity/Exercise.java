@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Table(name = "exercise")
 public class Exercise {
     @Getter
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

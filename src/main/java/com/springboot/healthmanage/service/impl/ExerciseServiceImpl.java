@@ -97,6 +97,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
+    @Transactional  //readOnly = falseに
     public void saveExerciseRecord(Exercise exercise) {
         exerciseRepository.save(exercise);
     }

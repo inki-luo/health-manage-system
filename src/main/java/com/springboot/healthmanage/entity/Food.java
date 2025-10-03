@@ -19,7 +19,7 @@ public class Food {
     @Getter
     private LocalDateTime date;
     private String foodName;
-    private Integer calories;
+    private Integer kilocalories;
 
     public String getFoodName() {
         return foodName;
@@ -30,10 +30,10 @@ public class Food {
     }
 
     public Integer getCalories() {
-        return calories;
+        return kilocalories;
     }
 
     public void setCalories(Integer calories) {
-        this.calories = calories;
+        this.kilocalories = calories;
     }
 }

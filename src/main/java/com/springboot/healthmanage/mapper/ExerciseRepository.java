@@ -39,10 +39,10 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
      */
     List<Exercise> findByExerciseType_ExerciseTypeName(String exercise_type_name);
 
-    /**
-     * 根据ExerciseId查询运动记录
-     */
-    Optional<Exercise> findExerciseById(Long id);
+//    /**
+//     * 根据ExerciseId查询运动记录
+//     */
+//    Optional<Exercise> findExerciseById(Long id);
 
     /**
      * 查询所有运动记录，并按日期排序

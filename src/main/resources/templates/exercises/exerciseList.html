@@ -57,18 +57,6 @@
     <div th:each="entry : ${exercisesByMonth}">
         <h3 th:text="${#temporals.format(entry.key, 'yyyy-MM')}">2025-09</h3>
 
-<!--        &lt;!&ndash; 汇总信息 &ndash;&gt;-->
-<!--        <div style="margin: 5px 0; padding: 5px; background: #f5f5f5; border-left: 4px solid #a9c1d9;">-->
-<!--            <p>-->
-<!--                <span th:text="${selectedType == 'All' ? 'All Types' : selectedType}"></span>-->
-<!--                <span th:text="${summaries[entry.key].count}"></span>-->
-<!--            </p>-->
-<!--            <p>-->
-<!--                Kilocalories: -->
-<!--                <span th:text="${summaries[entry.key].totalCalories}"></span> KCAL-->
-<!--            </p>-->
-<!--        </div>-->
-
         <!--    当月表格    -->
         <table class="styled-table">
             <thead>
@@ -88,7 +76,9 @@
                     <td th:text="${exercise.kilocalories}"></td>
                     <td th:text="${exercise.exerciseType.exerciseTypeName}"></td>
                     <td>
-                        <a th:href="@{'/exercises/' + ${exercise.id} + '/edit'}">Edit</a>
+                        <a th:href="@{'/exercises/' + ${exercise.id} + '/edit'}">Edit</a> /
+                        <a th:href="@{'/exercises/' + ${exercise.id} + '/delete'}"
+                            onclick="return confirm('この運動記録を削除してもよろしいですか？この操作は元に戻せません。')">Delete</a>
                     </td>
                 </tr>
             </tbody>

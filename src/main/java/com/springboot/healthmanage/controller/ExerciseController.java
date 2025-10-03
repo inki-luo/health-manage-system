@@ -2,6 +2,7 @@ package com.springboot.healthmanage.controller;
 
 import com.springboot.healthmanage.entity.Exercise;
 import com.springboot.healthmanage.entity.ExerciseType;
+import com.springboot.healthmanage.mapper.ExerciseRepository;
 import com.springboot.healthmanage.mapper.ExerciseTypeRepository;
 import com.springboot.healthmanage.service.ExerciseService;
 import com.springboot.healthmanage.service.ExerciseTypeService;
@@ -25,6 +26,7 @@ public class ExerciseController {
     private final ExerciseService exerciseService;
     private final ExerciseTypeRepository exerciseTypeRepository;
     private final ExerciseTypeService exerciseTypeService;
+    private final ExerciseRepository exerciseRepository;
 
     /** 在模型中放入运动类型（下拉框用） */
     @ModelAttribute("types")
@@ -122,52 +124,48 @@ public class ExerciseController {
         redirectAttributes.addFlashAttribute("message", "A new exercise record has been added");
         return "redirect:/exercises";
     }
-//
-//    // ===================== 编辑 =====================
-//    @GetMapping("/{exerciseId}/edit")
-//    public String initUpdateForm(@PathVariable("exerciseId") Long exerciseId, Model model) {
-//        Exercise exercise = exerciseService.findById(exerciseId);
-//        model.addAttribute("exercise", exercise);
-//        return VIEWS_EXERCISE_FORM;
-//    }
-//
-//    @PostMapping("/{exerciseId}/edit")
-//    public String processUpdateForm(@ModelAttribute("exercise") Exercise exercise,
-//                                    BindingResult result,
-//                                    RedirectAttributes redirectAttributes) {
-//
-//        if (exercise.getCalories() != null && exercise.getCalories() <= 0) {
-//            result.rejectValue("calories", "invalid", "Calories must be positive");
-//        }
-//
-//        if (result.hasErrors()) {
-//            return VIEWS_EXERCISE_FORM;
-//        }
-//
-//        exerciseService.save(exercise);
-//        redirectAttributes.addFlashAttribute("message", "Exercise has been updated!");
-//        return "redirect:/exercises";
-//    }
 
-//
-//    /** 处理编辑提交 */
-//    @PostMapping("/{exerciseId}/edit")
-//    public String processUpdateForm(Exercise exercise,
-//                                    BindingResult result,
-//                                    RedirectAttributes redirectAttributes) {
-//
-//        // 校验卡路里
-//        if (exercise.getCalories() != null && exercise.getCalories() <= 0) {
-//            result.rejectValue("calories", "invalid", "Calories must be positive");
-//        }
-//
-//        if (result.hasErrors()) {
-//            return VIEWS_EXERCISE_FORM;
-//        }
-//
-//        this.exercises.save(exercise);
-//        redirectAttributes.addFlashAttribute("message", "Exercise has been updated!");
-//        return "redirect:/exercises";
-//    }
+    // ===================== 编辑 =====================
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable("id") Long id, Model model) {
+        Exercise exercise = exerciseRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid exercise Id:" + id));
+        model.addAttribute("exercise", exercise);
+        model.addAttribute("types", exerciseTypeService.findAllExerciseTypes());
+        return "exercises/edit";
+    }
 
+    /** 处理编辑提交 */
+    @PostMapping("update/{id}")
+    public String processUpdateForm(@PathVariable("id") Long id,
+                                    @ModelAttribute Exercise exercise,
+                                    BindingResult result,
+                                    RedirectAttributes redirectAttributes) {
+
+        // フォームの transient フィールドから Type を再設定
+        ExerciseType type = exerciseTypeRepository.findById(exercise.getExerciseTypeId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid type Id"));
+
+        if (exercise.getKilocalories() != null && exercise.getKilocalories()<= 0) {
+            result.rejectValue("calories", "invalid", "Calories must be positive");
+            return "/exercises/edit";
+        }
+
+        if (result.hasErrors()) {
+            // エラー内容をログ出力
+            result.getAllErrors().forEach(error -> {
+                System.out.println("Binding Error: " + error.getObjectName() +
+                        " - Field: " + (error instanceof FieldError ? ((FieldError) error).getField() : "N/A") +
+                        " - Message: " + error.getDefaultMessage());
+            });
+            return "/exercises/edit";
+        }
+
+        exercise.setExerciseType(type);
+        exercise.setId(id);     // 更新対象のIdをセット
+
+        exerciseService.saveExerciseRecord(exercise);
+        redirectAttributes.addFlashAttribute("message", "An exercise record has been updated!");
+        return "redirect:/exercises";
+    }
 }
