@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Exercise List</title>
     <link rel="stylesheet" href="/css/healthmanage.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
 <div th:replace="fragments/navigationBar :: navbar"></div>
@@ -75,10 +75,15 @@
                     <td th:text="${#temporals.format(exercise.date, 'yyyy-MM-dd HH:mm')}"></td>
                     <td th:text="${exercise.kilocalories}"></td>
                     <td th:text="${exercise.exerciseType.exerciseTypeName}"></td>
-                    <td>
-                        <a th:href="@{'/exercises/' + ${exercise.id} + '/edit'}">Edit</a> /
-                        <a th:href="@{'/exercises/' + ${exercise.id} + '/delete'}"
-                            onclick="return confirm('この運動記録を削除してもよろしいですか？この操作は元に戻せません。')">Delete</a>
+                    <td class="actions-cell">
+                        <a th:href="@{/exercises/{id}/edit(id=${exercise.id})}" class="action-button">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <form th:action="@{/exercises/{id}/delete(id=${exercise.id})}" method="post" class="action-form">
+                            <button type="submit" class="action-button" onclick="return confirm('この運動記録を削除しますか？この操作は元に戻せません。')">
+                                <i class="fas fa-trash-alt"></i> Delete
+                            </button>
+                        </form>
                     </td>
                 </tr>
             </tbody>

@@ -304,3 +304,42 @@ tr:hover {
     width: 100% !important;   /* 让 Chart.js 适应容器 */
     height: 100% !important;
 }
+
+/* healthmanage.css に追加 */
+
+.action-button {
+    /* 共通のスタイル */
+    display: inline-flex; /* アイコンとテキストを中央揃えにする */
+    align-items: center;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+    color: #333;
+    text-decoration: none; /* リンクの下線を消す */
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+
+    /* formと横並びにするための調整 */
+    vertical-align: middle;
+}
+
+.action-button:hover {
+    background-color: #e0e0e0;
+}
+
+.action-button i {
+    margin-right: 5px; /* アイコンとテキストの間に隙間を空ける */
+}
+
+/* フォームをインライン表示にするためのスタイル */
+.action-form {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* 各アクション間のスペース */
+.actions-cell > * {
+    margin-right: 8px;
+}

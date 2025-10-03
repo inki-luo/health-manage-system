@@ -23,4 +23,6 @@ public interface ExerciseService {
     Integer getCaloriesBurnedYesterday();
 
     void saveExerciseRecord(Exercise exercise);
+
+    void deleteExerciseById(Long id);
 }

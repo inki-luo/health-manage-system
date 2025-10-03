@@ -102,4 +102,10 @@ public class ExerciseServiceImpl implements ExerciseService {
         exerciseRepository.save(exercise);
     }
 
+    @Override
+    @Transactional
+    public void deleteExerciseById(Long id) {
+        exerciseRepository.deleteById(id);
+    }
+
 }

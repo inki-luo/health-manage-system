@@ -177,4 +177,17 @@ public class ExerciseController {
         redirectAttributes.addFlashAttribute("message", "An exercise record has been updated!");
         return "redirect:/exercises";
     }
+
+    // ===================== 削除 =====================
+    @PostMapping("/{id}/delete")
+    public String processDeleteRecord(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+
+        System.out.println("Attempting to delete exercise with ID: " + id);
+
+        exerciseService.deleteExerciseById(id);
+
+        redirectAttributes.addFlashAttribute("message", "The exercise record has been deleted!");
+        return "redirect:/exercises";
+    }
+
 }
