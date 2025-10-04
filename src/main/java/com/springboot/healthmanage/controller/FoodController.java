@@ -160,4 +160,16 @@ public class FoodController {
         return "redirect:/food";
     }
 
+    // ===================== 削除 =====================
+    @PostMapping("/{id}/delete")
+    public String processDeleteRecord(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+
+//        System.out.println("Attempting to delete food record with ID: " + id);
+
+        foodService.deleteFoodById(id);
+
+        redirectAttributes.addFlashAttribute("message", "The food record has been deleted!");
+        return "redirect:/food";
+    }
+
 }

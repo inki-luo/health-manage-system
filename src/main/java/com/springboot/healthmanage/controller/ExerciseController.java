@@ -182,7 +182,7 @@ public class ExerciseController {
     @PostMapping("/{id}/delete")
     public String processDeleteRecord(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
 
-        System.out.println("Attempting to delete exercise with ID: " + id);
+//        System.out.println("Attempting to delete exercise record with ID: " + id);
 
         exerciseService.deleteExerciseById(id);
 
