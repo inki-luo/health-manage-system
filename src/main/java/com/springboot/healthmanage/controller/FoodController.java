@@ -21,7 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/food")
+@RequestMapping("/foods")
 @RequiredArgsConstructor
 public class FoodController {
     private final FoodRepository foodRepository;
@@ -105,7 +105,7 @@ public class FoodController {
         // 保存到数据库
         foodService.saveFoodRecord(food);
         redirectAttributes.addFlashAttribute("message", "A new food record has been added");
-        return "redirect:/food";
+        return "redirect:/foods";
     }
 
     // ===================== 編集 =====================
@@ -157,7 +157,7 @@ public class FoodController {
 
         foodService.saveFoodRecord(recordToUpdate); // 更新したエンティティを保存
         redirectAttributes.addFlashAttribute("message", "A Food record has been updated!");
-        return "redirect:/food";
+        return "redirect:/foods";
     }
 
     // ===================== 削除 =====================
@@ -169,7 +169,7 @@ public class FoodController {
         foodService.deleteFoodById(id);
 
         redirectAttributes.addFlashAttribute("message", "The food record has been deleted!");
-        return "redirect:/food";
+        return "redirect:/foods";
     }
 
 }

@@ -13,13 +13,13 @@
 
     <div class="page-header">
         <h2>Food Records</h2>
-        <a href="food/new" class="btn-add">Add Record</a>
+        <a href="foods/new" class="btn-add">Add Record</a>
     </div>
 
 
     <!-- 🔎 筛选区块 -->
     <div class="filter-box">
-        <form th:action="@{/food}" method="get" class="filter-form">
+        <form th:action="@{/foods}" method="get" class="filter-form">
             <!-- 日期筛选 -->
             <div>
                 <label for="date">Date:</label>
@@ -46,7 +46,7 @@
         </form>
 
         <!-- Reset 表单 -->
-        <form action="/food" method="get" class="filter-form">
+        <form action="/foods" method="get" class="filter-form">
             <div class="filter-item">
                 <button type="submit">Reset</button>
             </div>
@@ -76,10 +76,10 @@
                 <td th:text="${food.kilocalories}"></td>
                 <td th:text="${food.foodType.foodName}"></td>
                 <td class="actions-cell">
-                    <a th:href="@{/food/{id}/edit(id=${food.id})}" class="action-button">
+                    <a th:href="@{/foods/{id}/edit(id=${food.id})}" class="action-button">
                         <i class="fas fa-edit"></i> Edit
                     </a>
-                    <form th:action="@{/food/{id}/delete(id=${food.id})}" method="post" class="action-form">
+                    <form th:action="@{/foods/{id}/delete(id=${food.id})}" method="post" class="action-form">
                         <button type="submit" class="action-button" onclick="return confirm('この運動記録を削除しますか？この操作は元に戻せません。')">
                             <i class="fas fa-trash-alt"></i> Delete
                         </button>
