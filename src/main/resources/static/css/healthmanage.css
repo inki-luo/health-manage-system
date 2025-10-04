@@ -305,11 +305,15 @@ tr:hover {
     height: 100% !important;
 }
 
-/* healthmanage.css に追加 */
-
+.chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+}
+/* =======================*/
 .action-button {
     /* 共通のスタイル */
-    display: inline-flex; /* アイコンとテキストを中央揃えにする */
+    display: inline-flex; /* アイコンとテキストを中央揃え */
     align-items: center;
     padding: 5px 10px;
     border: 1px solid #ccc;

@@ -40,8 +40,8 @@
         const bmr = /*[[${bmr}]]*/ 0;
         // console.log("Chart Data:", intake, exerciseBurned, bmr);
 
-        const ctx = document.getElementById('yesterdayChart').getContext('2d');
-        new Chart(ctx, {
+        const yesterdayCtx = document.getElementById('yesterdayChart').getContext('2d');
+        new Chart(yesterdayCtx, {
             type: "doughnut",
             data: {
                 labels: ['Intake', 'Burned', 'BMR'],
@@ -69,26 +69,60 @@
 
     <div class="summary-box">
         <h2>Past 7 Days</h2>
-        <div class="summary-chart">
-            <canvas id="past7DayChart" width="250" height="250"></canvas>
+        <div class="chart-container">
+            <canvas id="past7DayChart"></canvas>
         </div>
     </div>
     <script th:inline="javascript">
         const intakeData = /*[[${intakeData}]]*/ [];
-        // const dateLabels = /*[[${dateLabels}]]*/ [];
-        // const burnedData = /*[[${burnedData}]]*/ [];
+        const dateLabels = /*[[${dateLabels}]]*/ [];
+        const burnedData = /*[[${burnedData}]]*/ [];
 
-        const ctx = document.getElementById("past7DayChart").getContext("2d");
-        new Chart(ctx, {
+        console.log("サーバーから渡された日付ラベル:", dateLabels);
+        console.log("サーバーから渡された摂取カロリーデータ:", intakeData);
+
+        const trendCtx = document.getElementById("past7DayChart").getContext("2d");
+        new Chart(trendCtx, {
             type: 'line',
             data: {
-                labels: ['Intake', 'Burned', 'Diff'],
-                datasets: [{
-                    label: 'Calories(kcal)',
-                    data: [intakeData],
-                    fill: false,
-                    borderColor: ['#e74c3c']    // Intake 红
-                }]
+                labels: dateLabels,
+                datasets: [
+                    {
+                        label: 'Food Intake (kcal)',
+                        data: intakeData,
+                        fill: false,
+                        borderColor: '#e74c3c',    // Intake 红
+                        tension: 0.1
+                    },
+                    {
+                        label: 'Total Burned (kcal)',
+                        data: burnedData,
+                        fill: false,
+                        borderColor: '#2ecc71',
+                        tension: 0.1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    // Y軸（縦軸）の設定
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Calories (kcal)'
+                        }
+                    },
+                    // X軸（横軸）の設定
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Date'
+                        }
+                    }
+                }
             }
         })
     </script>

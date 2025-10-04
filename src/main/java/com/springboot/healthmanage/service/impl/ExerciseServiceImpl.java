@@ -2,6 +2,7 @@ package com.springboot.healthmanage.service.impl;
 
 import com.springboot.healthmanage.entity.Exercise;
 import com.springboot.healthmanage.entity.ExerciseType;
+import com.springboot.healthmanage.entity.Food;
 import com.springboot.healthmanage.mapper.ExerciseRepository;
 import com.springboot.healthmanage.mapper.ExerciseTypeRepository;
 import com.springboot.healthmanage.service.ExerciseService;
@@ -17,6 +18,7 @@ import java.time.format.DateTimeParseException;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -107,5 +109,33 @@ public class ExerciseServiceImpl implements ExerciseService {
     public void deleteExerciseById(Long id) {
         exerciseRepository.deleteById(id);
     }
+
+    @Override
+    public LinkedHashMap<LocalDate, Integer> getDailyBurnedForLast7Days() {
+        // 過去7日間の日付範囲を計算
+        LocalDate endDate = LocalDate.now();   // 今日
+        LocalDate startDate = LocalDate.now().minusDays(7); // 7日前
+
+        //  Stream APIでDailyCaloriesを集計
+        List<Exercise> exercises = exerciseRepository.findByDateBetween(startDate.atStartOfDay(), endDate.atStartOfDay());
+        Map<LocalDate, Integer> dailyBurnedMap = exercises.stream()
+                .collect(Collectors.groupingBy(
+                        // グループ化のキーとして、LocalDateTimeからLocalDateを抽出
+                        exercise-> exercise.getDate().toLocalDate(),
+                        // downstreamコレクターとして、合計を計算
+                        Collectors.summingInt(Exercise::getKilocalories)
+                ));
+        // 結果を日付順にソートして、順序を保持するLinkedHashMapに格納
+        return dailyBurnedMap.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (v1, v2) -> v1,
+                        LinkedHashMap::new
+                ));
+    }
+
+
 
 }

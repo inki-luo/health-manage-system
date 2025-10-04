@@ -25,4 +25,6 @@ public interface ExerciseService {
     void saveExerciseRecord(Exercise exercise);
 
     void deleteExerciseById(Long id);
+
+    LinkedHashMap<LocalDate, Integer> getDailyBurnedForLast7Days();
 }

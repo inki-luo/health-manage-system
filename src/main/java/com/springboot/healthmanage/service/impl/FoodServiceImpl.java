@@ -1,8 +1,5 @@
 package com.springboot.healthmanage.service.impl;
 
-import com.springboot.healthmanage.dto.DailyIntakeCalorie;
-import com.springboot.healthmanage.dto.DailyIntakeCalorie;
-import com.springboot.healthmanage.entity.Exercise;
 import com.springboot.healthmanage.entity.Food;
 import com.springboot.healthmanage.mapper.ExerciseTypeRepository;
 import com.springboot.healthmanage.mapper.FoodRepository;
@@ -19,6 +16,7 @@ import java.time.format.DateTimeParseException;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -115,15 +113,35 @@ public class FoodServiceImpl implements FoodService {
         LocalDate endDate = LocalDate.now();   // 今日
         LocalDate startDate = LocalDate.now().minusDays(7); // 7日前
 
-        List<DailyIntakeCalorie> dailyIntakeList = foodRepository.sumCaloriesByDateBetween(startDate.atStartOfDay(), endDate.atStartOfDay());
-
-        // 日付と合計カロリーをMapに格納
-        LinkedHashMap<LocalDate, Integer> dailyIntakeMap = new LinkedHashMap<>();
-        for (DailyIntakeCalorie dailyIntakeCalorie: dailyIntakeList) {
-            LocalDate date = dailyIntakeCalorie.getDate();
-            int calories = (int) dailyIntakeCalorie.getTotalIntakeCalories().longValue();
-            dailyIntakeMap.put(date, calories);
-        }
-        return dailyIntakeMap;
+        //  Stream APIでDailyCaloriesを集計
+        List<Food> foods = foodRepository.findByDateBetween(startDate.atStartOfDay(), endDate.atStartOfDay());
+        Map<LocalDate, Integer> dailyIntakeMap = foods.stream()
+                .collect(Collectors.groupingBy(
+                        // グループ化のキーとして、LocalDateTimeからLocalDateを抽出
+                        food -> food.getDate().toLocalDate(),
+                        // downstreamコレクターとして、合計を計算
+                        Collectors.summingInt(Food::getKilocalories)
+                ));
+        // 結果を日付順にソートして、順序を保持するLinkedHashMapに格納
+        return dailyIntakeMap.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (v1, v2) -> v1,
+                        LinkedHashMap::new
+                ));
     }
+
+//         DTOで集計
+//        List<DailyCalorie> dailyIntakeList = foodRepository.sumCaloriesByDateBetween(startDate.atStartOfDay(), endDate.atStartOfDay());
+//
+//        // 日付と合計カロリーをMapに格納
+//        LinkedHashMap<LocalDate, Integer> dailyIntakeMap = new LinkedHashMap<>();
+//        for (DailyCalorie dailyCalorie : dailyIntakeList) {
+//            LocalDate date = dailyCalorie.getDate();
+//            int calories = (int) dailyCalorie.getTotalIntakeCalories().longValue();
+//            dailyIntakeMap.put(date, calories);
+//        }
+//        return dailyIntakeMap;
 }

@@ -11,6 +11,7 @@ import org.thymeleaf.expression.Maps;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -40,18 +41,34 @@ public class HomeController {
         model.addAttribute("bmr", bmr);
         model.addAttribute("diff", diff);
 
-        // ========== Past 7days Trend ==========
-        Map<LocalDate, Integer> dailyIntake = foodService.getDailyIntakeForLast7Days();
+        // ========== Past 7 day Trend ==========
+        LinkedHashMap<LocalDate, Integer> dailyIntakeMap = foodService.getDailyIntakeForLast7Days();
+        LinkedHashMap<LocalDate, Integer> dailyBurnedMap = exerciseService.getDailyBurnedForLast7Days();
 
-        // グラフのラベル（日付 M/d形式）を生成
-        List<String> dateLabels = dailyIntake.keySet().stream()
-                .map(date -> date.format(DateTimeFormatter.ofPattern("M/d")))
-                .toList();
-        // グラフのデータ（カロリー）を生成
-        List<Integer> intakeData = new ArrayList<>(dailyIntake.values());
+        // 過去7日間の日付リストを生成 --> グラフのX軸
+        List<LocalDate> last7Days = new ArrayList<>();
+        for (int i = 6; i >= 0; i--) {
+            last7Days.add(LocalDate.now().minusDays(i));
+        }
 
+        // Viewに渡すためのリストを生成
+        List<String> dateLabels = new ArrayList<>();
+        List<Integer> intakeData = new ArrayList<>();
+        List<Integer> burnedData = new ArrayList<>();
+
+        // 7日間の日付をループし、2つのリストにデータを振り分ける
+        for (LocalDate date : last7Days) {
+            // ラベルを追加 (例: "10/5")
+            dateLabels.add(date.format(DateTimeFormatter.ofPattern("M/d")));
+            // 食事データを追加 (該当日がなければ0を追加)
+            intakeData.add(dailyIntakeMap.getOrDefault(date, 0));
+            // 運動データを追加 (該当日がなければ0を追加)
+            burnedData.add(dailyBurnedMap.getOrDefault(date, 0) + bmr);
+        }
+
+        model.addAttribute("dateLabels", dateLabels);
         model.addAttribute("intakeData", intakeData);
-
+        model.addAttribute("burnedData", burnedData);
 
         return "home"; // templates/home.html
     }

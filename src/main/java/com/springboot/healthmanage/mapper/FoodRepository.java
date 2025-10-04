@@ -1,14 +1,10 @@
 package com.springboot.healthmanage.mapper;
 
-import com.springboot.healthmanage.dto.DailyIntakeCalorie;
-import com.springboot.healthmanage.dto.DailyIntakeCalorie;
-import com.springboot.healthmanage.entity.Exercise;
 import com.springboot.healthmanage.entity.Food;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -46,11 +42,16 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
      * 指定期間内のカロリーを日付ごとに計算
      * DTO DailyCalorieに日付と合計カロリーのリストを渡す
      */
-    @Query("SELECT new com.springboot.healthmanage.dto.DailyIntakeCalorie(FUNCTION('DATE', f.date), SUM(f.kilocalories) )" +
-            "FROM Food f " +
-            "WHERE f.date >= :startDate AND f.date < :endDate " +
-            "GROUP BY FUNCTION('DATE', f.date) " +
-            "ORDER BY FUNCTION('DATE', f.date) ASC")
-    List<DailyIntakeCalorie> sumCaloriesByDateBetween(@Param("startDate")LocalDateTime startDate, @Param("endDate")LocalDateTime endDate);
-
+//    @Query("SELECT new com.springboot.healthmanage.dto.DailyCalorie(FUNCTION('DATE', f.date), SUM(f.kilocalories) )" +
+//            "FROM Food f " +
+//            "WHERE f.date >= :startDate AND f.date < :endDate " +
+//            "GROUP BY FUNCTION('DATE', f.date) " +
+//            "ORDER BY FUNCTION('DATE', f.date) ASC")
+//    List<DailyCalorie> sumCaloriesByDateBetween(@Param("startDate")LocalDateTime startDate, @Param("endDate")LocalDateTime endDate);
+//    @Query("SELECT new com.springboot.healthmanage.dto.DailyCalorie(CAST(f.date AS date), SUM(f.kilocalories)) " +
+//            "FROM Food f " +
+//            "WHERE f.date >= :startDate AND f.date < :endDate " +
+//            "GROUP BY CAST(f.date AS date) " +
+//            "ORDER BY CAST(f.date AS date) ASC")
+//    List<DailyCalorie> sumCaloriesByDateBetween(@Param("startDate")LocalDateTime startDate, @Param("endDate")LocalDateTime endDate);
 }
