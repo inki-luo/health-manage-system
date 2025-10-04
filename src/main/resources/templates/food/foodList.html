@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Food List</title>
+    <link rel="stylesheet" href="/css/healthmanage.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+<div th:replace="fragments/navigationBar :: navbar"></div>
+
+<div class="container">
+
+    <div class="page-header">
+        <h2>Food Records</h2>
+        <a href="food/new" class="btn-add">Add Record</a>
+    </div>
+
+
+    <!-- 🔎 筛选区块 -->
+    <div class="filter-box">
+        <form th:action="@{/food}" method="get" class="filter-form">
+            <!-- 日期筛选 -->
+            <div>
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" th:value="${selectedDate}">
+            </div>
+
+            <!-- 类型筛选 -->
+            <div>
+                <label for="type">Type:</label>
+                <select id="type" name="name">
+                    <option th:value="All" th:selected="${selectedType == 'All'}">All</option>
+                    <option th:each="t : ${foodNames}"
+                            th:value="${t}"
+                            th:text="${t}"
+                            th:selected="${t == selectedType}">
+                    </option>
+                </select>
+            </div>
+
+            <!-- 搜索按钮 -->
+            <div>
+                <button type="submit">Search</button>
+            </div>
+        </form>
+
+        <!-- Reset 表单 -->
+        <form action="/food" method="get" class="filter-form">
+            <div class="filter-item">
+                <button type="submit">Reset</button>
+            </div>
+        </form>
+    </div>
+
+    <!--    遍历每个月   -->
+    <div th:each="entry : ${foodByMonth}">
+        <h3 th:text="${#temporals.format(entry.key, 'yyyy-MM')}">2025-09</h3>
+
+        <!--    当月表格    -->
+        <table class="styled-table">
+            <thead>
+            <tr>
+                <!--                    <th>ID</th>-->
+                <th>Date</th>
+                <th>Calories (kcal)</th>
+                <th>Food Type</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <!--   遍历该月的饮食记录   -->
+            <tbody>
+            <tr th:each="food : ${entry.value}">
+                <!--                    <td th:text="${food.id}"></td>-->
+                <td th:text="${#temporals.format(food.date, 'yyyy-MM-dd HH:mm')}"></td>
+                <td th:text="${food.kilocalories}"></td>
+                <td th:text="${food.foodType.foodName}"></td>
+                <td class="actions-cell">
+                    <a th:href="@{/food/{id}/edit(id=${food.id})}" class="action-button">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <form th:action="@{/food/{id}/delete(id=${food.id})}" method="post" class="action-form">
+                        <button type="submit" class="action-button" onclick="return confirm('この運動記録を削除しますか？この操作は元に戻せません。')">
+                            <i class="fas fa-trash-alt"></i> Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>

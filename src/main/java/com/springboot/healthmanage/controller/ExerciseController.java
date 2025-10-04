@@ -79,7 +79,7 @@ public class ExerciseController {
         model.addAttribute("exercise", new Exercise());
         // 下拉框需要的类型
         model.addAttribute("types", exerciseTypeService.findAllExerciseTypes());
-        return "/exercises/createOrUpdateForm";
+        return "/exercises/create";
     }
 
     @PostMapping("/new")
@@ -98,7 +98,7 @@ public class ExerciseController {
                         " - Field: " + (error instanceof FieldError ? ((FieldError) error).getField() : "N/A") +
                         " - Message: " + error.getDefaultMessage());
             });
-            return "/exercises/createOrUpdateForm";
+            return "/exercises/create";
         }
 
         // フォームからのIDでExerciseTypeエンティティをロード
@@ -106,7 +106,7 @@ public class ExerciseController {
         // IDがnullでないことを確認
         if (typeIdFromForm  == null) {
             result.rejectValue("exerciseTypeId", "invalid", "Exercise Type must be selected");
-            return "/exercises/createOrUpdateForm";
+            return "/exercises/create";
         }
 
         // データベースから完全な ExerciseType エンティティをロード
@@ -114,7 +114,7 @@ public class ExerciseController {
         if (fullExerciseType == null) {
             // IDが見つからない場合のエラー処理 (通常は発生しないはず)
             result.rejectValue("exerciseType", "invalid", "Invalid Exercise Type selected");
-            return "/exercises/createOrUpdateForm";
+            return "/exercises/create";
         }
         // ロードしたExerciseTypeをExerciseオブジェクトにセット
         exercise.setExerciseType(fullExerciseType);
