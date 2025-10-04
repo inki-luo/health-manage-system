@@ -1,5 +1,7 @@
 package com.springboot.healthmanage.service.impl;
 
+import com.springboot.healthmanage.dto.DailyIntakeCalorie;
+import com.springboot.healthmanage.dto.DailyIntakeCalorie;
 import com.springboot.healthmanage.entity.Exercise;
 import com.springboot.healthmanage.entity.Food;
 import com.springboot.healthmanage.mapper.ExerciseTypeRepository;
@@ -105,5 +107,23 @@ public class FoodServiceImpl implements FoodService {
     @Transactional
     public void deleteFoodById(Long id){
         foodRepository.deleteById(id);
+    }
+
+    @Override
+    public LinkedHashMap<LocalDate, Integer> getDailyIntakeForLast7Days(){
+        // 過去7日間の日付範囲を計算
+        LocalDate endDate = LocalDate.now();   // 今日
+        LocalDate startDate = LocalDate.now().minusDays(7); // 7日前
+
+        List<DailyIntakeCalorie> dailyIntakeList = foodRepository.sumCaloriesByDateBetween(startDate.atStartOfDay(), endDate.atStartOfDay());
+
+        // 日付と合計カロリーをMapに格納
+        LinkedHashMap<LocalDate, Integer> dailyIntakeMap = new LinkedHashMap<>();
+        for (DailyIntakeCalorie dailyIntakeCalorie: dailyIntakeList) {
+            LocalDate date = dailyIntakeCalorie.getDate();
+            int calories = (int) dailyIntakeCalorie.getTotalIntakeCalories().longValue();
+            dailyIntakeMap.put(date, calories);
+        }
+        return dailyIntakeMap;
     }
 }

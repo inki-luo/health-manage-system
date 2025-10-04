@@ -16,38 +16,35 @@
         <h2>Yesterday Summary</h2>
         <div class="summary-content">
             <div class="summary-text">
-                <p>Exercise Burned: 244kcal</p>
-                <!--    <p>饮食摄入: <span th:text="${intake}"></span> kcal</p>-->
-                <p>Food Intake：1500kcal</p>
-                <!--    <p>-->
-                <!--        热量差值:-->
-                <!--        <span th:text="${diff}"></span> kcal-->
-                <!--        (<span th:text="${diff > 0 ? '盈余' : '缺口'}"></span>)-->
-                <!--    </p>-->
-                <p>BMR：1400kcal</p>
-<!--                <p>Calorie Balance｀：xxxx</p>-->
+                <p>Exercise Burned: <span th:text="${burned}">0</span>kcal</p>
+                <p>Food Intake: <span th:text="${intake}">0</span>kcal</p>
+                <p>BMR: <span th:text="${bmr}">0</span>kcal</p>
+                <p>
+                    Calorie Balance:
+                    <span th:text="${diff}">0</span>kcal
+                    (<span th:style="${diff > 0 ? 'color:red;' : 'color:green;'}" th:text="${diff > 0 ? 'Surplus' : 'Deficit'}"></span>)
+                </p>
             </div>
             <div class="summary-chart">
                 <canvas id="yesterdayChart" width="250" height="250"></canvas>
             </div>
         </div>
     </div>
+
     <!--    圆环图chart.js脚本   -->
     <script th:inline="javascript">
         /*<![CDATA[*/
-        const intake = 1400;
-        /*[[${intake}]]*/
-        const exerciseBurned = 244;
-        /*[[${exerciseBurned}]]*/
-        const bmr = 1400;
-        /*[[${bmr}]]*/
+        // Controllerから渡された値をJavaScript変数に格納
+        const intake = /*[[${intake}]]*/ 0;
+        const exerciseBurned = /*[[${burned}]]*/ 0;
+        const bmr = /*[[${bmr}]]*/ 0;
         // console.log("Chart Data:", intake, exerciseBurned, bmr);
 
         const ctx = document.getElementById('yesterdayChart').getContext('2d');
         new Chart(ctx, {
             type: "doughnut",
             data: {
-                labels: ['Intake', 'Exercise', 'BMR'],
+                labels: ['Intake', 'Burned', 'BMR'],
                 datasets: [{
                     label: 'Calories(kcal)',
                     data: [intake, exerciseBurned, bmr],
@@ -71,9 +68,31 @@
 
 
     <div class="summary-box">
-        <h2>Past 7 Days Trend</h2>
-<!--        <p>生成近7日的热量消耗/摄入趋势图</p>-->
+        <h2>Past 7 Days</h2>
+        <div class="summary-chart">
+            <canvas id="past7DayChart" width="250" height="250"></canvas>
+        </div>
     </div>
+    <script th:inline="javascript">
+        const intakeData = /*[[${intakeData}]]*/ [];
+        // const dateLabels = /*[[${dateLabels}]]*/ [];
+        // const burnedData = /*[[${burnedData}]]*/ [];
+
+        const ctx = document.getElementById("past7DayChart").getContext("2d");
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Intake', 'Burned', 'Diff'],
+                datasets: [{
+                    label: 'Calories(kcal)',
+                    data: [intakeData],
+                    fill: false,
+                    borderColor: ['#e74c3c']    // Intake 红
+                }]
+            }
+        })
+    </script>
+
     <div class="summary-box">
         <h2>Recent Records</h2>
 <!--        <p>插入最近5条运动/饮食记录</p>-->

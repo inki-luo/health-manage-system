@@ -4,6 +4,7 @@ import com.springboot.healthmanage.entity.Exercise;
 import com.springboot.healthmanage.entity.Food;
 
 import java.time.LocalDate;
+import java.time.MonthDay;
 import java.time.YearMonth;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -22,4 +23,6 @@ public interface FoodService {
     void saveFoodRecord(Food food);
 
     void deleteFoodById(Long id);
+
+    LinkedHashMap<LocalDate, Integer> getDailyIntakeForLast7Days();
 }
