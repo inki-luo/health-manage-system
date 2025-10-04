@@ -108,6 +108,56 @@ public class FoodController {
         return "redirect:/food";
     }
 
+    // ===================== 編集 =====================
+    @GetMapping("/{id}/edit")
+    public String showEditForm(@PathVariable("id") Long id, Model model) {
+        Food food = foodRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid food Id:" + id));
+        if (food.getFoodType() != null) {
+            food.setFoodTypeId(food.getFoodType().getId());
+        }
 
+        model.addAttribute("food", food);
+        model.addAttribute("types", foodTypeService.findAllFoodTypes());
+        return "food/edit";
+    }
+
+    @PostMapping("/{id}/update")
+    public String processUpdateForm(@PathVariable("id") Long id,
+                                    @ModelAttribute Food recordFromForm,
+                                    BindingResult result,
+                                    RedirectAttributes redirectAttributes) {
+
+        if (result.hasErrors()) {
+            // エラー内容をログ出力
+            result.getAllErrors().forEach(error -> {
+                System.out.println("Binding Error: " + error.getObjectName() +
+                        " - Field: " + (error instanceof FieldError ? ((FieldError) error).getField() : "N/A") +
+                        " - Message: " + error.getDefaultMessage());
+            });
+            return "/food/edit";
+        }
+
+        FoodType type = foodTypeRepository.findById(recordFromForm.getFoodTypeId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid type Id"));
+
+        //  DBから編集されるエンティティをロード
+        Food recordToUpdate = foodRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid food Id:" + id));
+
+        if (recordFromForm.getKilocalories() != null && recordFromForm.getKilocalories()<= 0) {
+            result.rejectValue("kilocalories", "invalid", "Calories must be positive");
+            return "/food/edit";
+        }
+
+        // エンティティのフィールドを更新
+        recordToUpdate.setDate(recordFromForm.getDate());
+        recordToUpdate.setKilocalories(recordFromForm.getKilocalories());
+        recordToUpdate.setFoodType(type);
+
+        foodService.saveFoodRecord(recordToUpdate); // 更新したエンティティを保存
+        redirectAttributes.addFlashAttribute("message", "A Food record has been updated!");
+        return "redirect:/food";
+    }
 
 }
