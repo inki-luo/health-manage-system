@@ -1,6 +1,7 @@
 package com.springboot.healthmanage.service;
 
 import com.springboot.healthmanage.entity.Exercise;
+import com.springboot.healthmanage.entity.ExerciseType;
 import com.springboot.healthmanage.mapper.ExerciseRepository;
 import com.springboot.healthmanage.mapper.ExerciseTypeRepository;
 import org.springframework.stereotype.Service;
@@ -27,4 +28,6 @@ public interface ExerciseService {
     void deleteExerciseById(Long id);
 
     LinkedHashMap<LocalDate, Integer> getDailyBurnedForLast7Days();
+
+    List<Exercise> getRecentExerciseRecords();
 }

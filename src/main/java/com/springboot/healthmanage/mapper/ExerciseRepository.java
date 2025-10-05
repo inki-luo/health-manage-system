@@ -41,5 +41,8 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
     @Query("SELECT e FROM Exercise e ORDER BY e.date DESC")
     List<Exercise> findAllOrderByDateDesc();
 
-
+    /**
+     * 日付の降順で最新5件を取得
+     */
+    List<Exercise> findTop5ByOrderByDateDesc();
 }

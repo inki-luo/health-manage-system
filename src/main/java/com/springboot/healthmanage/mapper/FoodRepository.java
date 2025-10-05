@@ -54,4 +54,9 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
 //            "GROUP BY CAST(f.date AS date) " +
 //            "ORDER BY CAST(f.date AS date) ASC")
 //    List<DailyCalorie> sumCaloriesByDateBetween(@Param("startDate")LocalDateTime startDate, @Param("endDate")LocalDateTime endDate);
+
+    /**
+     * 日付の降順で最新5件を取得
+     */
+    List<Food> findTop5ByOrderByDateDesc();
 }

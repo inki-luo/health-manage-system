@@ -1,5 +1,7 @@
 package com.springboot.healthmanage.controller;
 
+import com.springboot.healthmanage.entity.Exercise;
+import com.springboot.healthmanage.entity.Food;
 import com.springboot.healthmanage.service.ExerciseService;
 import com.springboot.healthmanage.service.FoodService;
 import lombok.Value;
@@ -76,11 +78,20 @@ public class HomeController {
 
         }
 
+
         model.addAttribute("dateLabels", dateLabels);
         model.addAttribute("intakeData", intakeData);
         model.addAttribute("burnedData", burnedData);
         model.addAttribute("goalAchievedData", goalAchievedData);
         model.addAttribute("diffData", diffData);
+
+        // ========== Recent Records ==========
+        List<Exercise> recentExerciseRecords = exerciseService.getRecentExerciseRecords();
+        List<Food> recentFoodRecords = foodService.getRecentFoodRecords();
+
+        model.addAttribute("recentExerciseRecords", recentExerciseRecords);
+        model.addAttribute("recentFoodRecords", recentFoodRecords);
+
 
         return "home"; // templates/home.html
     }

@@ -144,4 +144,10 @@ public class FoodServiceImpl implements FoodService {
 //            dailyIntakeMap.put(date, calories);
 //        }
 //        return dailyIntakeMap;
+
+    @Override
+    public List<Food> getRecentFoodRecords() {
+        return foodRepository.findTop5ByOrderByDateDesc();
+    }
+
 }

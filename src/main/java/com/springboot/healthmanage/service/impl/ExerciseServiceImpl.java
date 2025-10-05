@@ -136,6 +136,11 @@ public class ExerciseServiceImpl implements ExerciseService {
                 ));
     }
 
+    @Override
+    public List<Exercise> getRecentExerciseRecords() {
+        return exerciseRepository.findTop5ByOrderByDateDesc();
+    }
+
 
 
 }

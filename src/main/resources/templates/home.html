@@ -150,8 +150,35 @@
 
     <div class="summary-box">
         <h2>Recent Records</h2>
-<!--        <p>插入最近5条运动/饮食记录</p>-->
+        <div class="summary-content">
+            <div style="width: 50%;">
+                <div th:if="${#lists.isEmpty(recentExerciseRecords)}">
+                    <p>NO RECENT EXERCISE RECORDS</p>
+                </div>
+                <ul th:unless="${#lists.isEmpty(recentExerciseRecords)}" style="padding-left: 20px">
+                    <li th:each="exercise : ${recentExerciseRecords}" style="margin-bottom: 5px;">
+                        <span th:text="${#temporals.format(exercise.date, 'MM/dd HH:mm')}"></span>
+                        <span th:text="${exercise.exerciseType.exerciseTypeName}"></span>
+                        -<span th:text="${exercise.kilocalories}"></span>kcal
+                    </li>
+                </ul>
+            </div>
+            <div style="width: 50%;">
+                <div th:if="${#lists.isEmpty(recentFoodRecords)}">
+                    <p>NO RECENT FOOD RECORDS</p>
+                </div>
+                <ul th:unless="${#lists.isEmpty(recentFoodRecords)}" style="padding-left: 20px">
+                    <li th:each="food : ${recentFoodRecords}" style="margin-bottom: 5px;">
+                        <span th:text="${#temporals.format(food.date, 'MM/dd HH:mm')}"></span>
+                        <span th:text="${food.foodType.foodName}"></span>
+                        -<span th:text="${food.kilocalories}"></span>kcal
+                    </li>
+                </ul>
+            </div>
+
+        </div>
     </div>
+
     <div class="summary-box">
         <h2>Quick Access</h2>
 <!--        <p>新建运动记录、新建饮食记录的入口链接</p>-->

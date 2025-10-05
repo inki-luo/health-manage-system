@@ -25,4 +25,6 @@ public interface FoodService {
     void deleteFoodById(Long id);
 
     LinkedHashMap<LocalDate, Integer> getDailyIntakeForLast7Days();
+
+    List<Food> getRecentFoodRecords();
 }
