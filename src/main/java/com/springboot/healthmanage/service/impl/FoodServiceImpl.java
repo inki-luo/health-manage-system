@@ -114,7 +114,7 @@ public class FoodServiceImpl implements FoodService {
         LocalDate startDate = LocalDate.now().minusDays(7); // 7日前
 
         //  Stream APIでDailyCaloriesを集計
-        List<Food> foods = foodRepository.findByDateBetween(startDate.atStartOfDay(), endDate.atStartOfDay());
+        List<Food> foods = foodRepository.findByDateBetween(startDate.atStartOfDay(), endDate.atTime(23, 59, 59));
         Map<LocalDate, Integer> dailyIntakeMap = foods.stream()
                 .collect(Collectors.groupingBy(
                         // グループ化のキーとして、LocalDateTimeからLocalDateを抽出

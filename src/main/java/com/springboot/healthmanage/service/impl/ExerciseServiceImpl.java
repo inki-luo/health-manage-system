@@ -114,10 +114,10 @@ public class ExerciseServiceImpl implements ExerciseService {
     public LinkedHashMap<LocalDate, Integer> getDailyBurnedForLast7Days() {
         // 過去7日間の日付範囲を計算
         LocalDate endDate = LocalDate.now();   // 今日
-        LocalDate startDate = LocalDate.now().minusDays(7); // 7日前
+        LocalDate startDate = LocalDate.now().minusDays(6); // 7日前
 
         //  Stream APIでDailyCaloriesを集計
-        List<Exercise> exercises = exerciseRepository.findByDateBetween(startDate.atStartOfDay(), endDate.atStartOfDay());
+        List<Exercise> exercises = exerciseRepository.findByDateBetween(startDate.atStartOfDay(), endDate.atTime(23, 59, 59));
         Map<LocalDate, Integer> dailyBurnedMap = exercises.stream()
                 .collect(Collectors.groupingBy(
                         // グループ化のキーとして、LocalDateTimeからLocalDateを抽出

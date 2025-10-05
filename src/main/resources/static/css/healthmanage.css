@@ -296,6 +296,7 @@ tr:hover {
 }
 
 .summary-chart {
+    position: relative; /* 子要素を絶対位置で配置するための基準にする */
     flex: 0 0 200px;           /* 固定宽度 200px */
     height: 200px;             /* 高度 200px */
 }
@@ -303,6 +304,26 @@ tr:hover {
 .summary-chart canvas {
     width: 100% !important;   /* 让 Chart.js 适应容器 */
     height: 100% !important;
+}
+
+.chart-center-text {
+    /* 親要素の中央に配置するおまじない */
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    /* テキストのスタイル */
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: dimgray;
+}
+
+.chart-center-text small {
+    display: block; /* ブロック要素にして改行させる */
+    font-size: 14px;
+    color: dimgray;
 }
 
 .chart-container {

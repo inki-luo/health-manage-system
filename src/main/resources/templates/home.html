@@ -27,6 +27,10 @@
             </div>
             <div class="summary-chart">
                 <canvas id="yesterdayChart" width="250" height="250"></canvas>
+                <div class="chart-center-text">
+                    <span th:text="${diff}">0</span>
+                    <small>kcal</small>
+                </div>
             </div>
         </div>
     </div>
@@ -44,7 +48,7 @@
         new Chart(yesterdayCtx, {
             type: "doughnut",
             data: {
-                labels: ['Intake', 'Burned', 'BMR'],
+                labels: ['Intake', 'Exercise', 'BMR'],
                 datasets: [{
                     label: 'Calories(kcal)',
                     data: [intake, exerciseBurned, bmr],
@@ -77,9 +81,14 @@
         const intakeData = /*[[${intakeData}]]*/ [];
         const dateLabels = /*[[${dateLabels}]]*/ [];
         const burnedData = /*[[${burnedData}]]*/ [];
+        const diffData = /*[[${diffData}]]*/ [];
+        const goalAchievedData = /*[[${goalAchievedData}]]*/ [];
 
-        console.log("サーバーから渡された日付ラベル:", dateLabels);
-        console.log("サーバーから渡された摂取カロリーデータ:", intakeData);
+        const negativeBurnedData = burnedData.map(value => -value);
+        // const pointStyles = goalAchievedData.map(achieved => achieved ? 'rect' : 'crossRot'); // 達成ならマル, 未達成ならバツ
+
+        console.log("サーバから渡された日付ラベル:", dateLabels);
+        console.log("サーバから渡された摂取カロリーデータ:", intakeData);
 
         const trendCtx = document.getElementById("past7DayChart").getContext("2d");
         new Chart(trendCtx, {
@@ -88,18 +97,30 @@
                 labels: dateLabels,
                 datasets: [
                     {
-                        label: 'Food Intake (kcal)',
+                        label: 'Food Intake',
                         data: intakeData,
                         fill: false,
                         borderColor: '#e74c3c',    // Intake 红
+                        pointStyle: 'rect',
                         tension: 0.1
                     },
                     {
-                        label: 'Total Burned (kcal)',
-                        data: burnedData,
+                        label: 'Burned (Exercise + BMR)',
+                        data: negativeBurnedData,
                         fill: false,
+                        pointStyle: 'rect',
                         borderColor: '#2ecc71',
-                        tension: 0.1
+                        tension: 0.1,
+                    },
+                    {
+                        label: 'Calorie Balance',
+                        data: diffData,
+                        showLine: false,
+                        fill: false,
+                        pointBackgroundColor: '696969FF',
+                        borderColor: '696969FF',
+                        pointRadius: 6,
+                        pointStyle: 'rectRot'
                     }
                 ]
             },
