@@ -1,315 +1,46 @@
+.navbar-custom .navbar-nav .nav-link {
+    color: #555;
 
-/* 主体背景 */
+}
+
+.navbar-custom .navbar-nav .nav-link:hover {
+    color: #000;
+}
+
+/* ===== 主体背景 ===== */
 body {
+    padding-top: 50px;
     background-color: #f5f7fa;
     font-family: "Helvetica Neue", Arial, sans-serif;
     color: #333;
     margin: 0;
-    padding: 0;
 }
 
 /* ===== 页面内容 ===== */
 
 /* 容器卡片 */
 .container {
-    max-width: 1000px;
     margin: 20px auto;   /* 居中 */
-    padding: 20px;
+    padding: 16px;
     background: #fff;
     border-radius: 8px;  /* 圆角效果 */
     box-shadow: 0 2px 6px rgba(0,0,0,0.1); /* 阴影 */
 }
-
-/* 标题 */
-h1, h2 {
-    margin: 20px 0 10px;
-    font-weight: bold;
-    color: #2c3e50;
-    border-bottom: 2px solid #a9c1d9; /* 蓝色下划线 */
-    padding-bottom: 5px;
+.container-home {
+    margin: 20px auto;   /* 居中 */
+    padding: 16px;
+    background: #fff;
+    border-radius: 8px;  /* 圆角效果 */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1); /* 阴影 */
+    height: 384px;
 }
 
-/* ========== 页面标题 ========== */
-.page-header {
-    display: flex;
-    justify-content: flex-start;  /* 标题和按钮都靠左 */
-    align-items: center;
-    margin-bottom: 15px;
-    gap: 10px;
-}
-
-.page-header h2 {
-    margin: 0;   /* 去掉标题多余间距 */
-}
-
-.btn-add {
-    padding: 6px 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;   /* 默认白色背景 */
-    cursor: pointer;
-    font-size: 12px;
-    text-decoration: none;    /* 去掉下划线 */
-    color: #333;
-}
-
-.btn-add:hover {
-    background-color: #f0f0f0;
-    border-color: #999;
-}
-
-
-/* ========== 筛选区块 ========== */
-.filter-box {
-    display: inline-flex;   /* 内部的 form 并排 */
-    gap: 20px;              /* 两个 form 之间的间隔 */
-    margin-bottom: 20px;
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    background-color: #ecf0f1;
-}
-
-.filter-form {
-    display: flex;
-    align-items: center;    /* 输入框、按钮垂直居中 */
-    gap: 20px;              /* 子项之间的间隔 */
-    flex-wrap: wrap;        /* 窗口窄时自动换行 */
-}
-
-.filter-item {
-    display: flex;
-    flex-direction: column; /* 标签在上，输入框/下拉框在下 */
-    font-size: 14px;
-}
-
-.filter-item label {
-    margin-bottom: 4px;
-    font-weight: bold;
-}
-
-.filter-item input,
-.filter-item select {
-    padding: 6px 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-/* ========== 按钮样式（Search & Reset 统一） ========== */
-.filter-box button {
-    padding: 6px 14px;
-    height: 32px;             /* 固定高度，保证对齐 */
-    line-height: 1.2;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;   /* 默认白色背景 */
-    cursor: pointer;
-    font-size: 12px;
-}
-
-.filter-box button:hover {
-    background-color: #f0f0f0;
-    border-color: #999;
-}
-
-
-p {
-    margin: 10px 0;
-    line-height: 1.6;
-}
-
-/* ========== 表单样式 ========== */
-.form-box {
-    max-width: 500px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-}
-
-.form-item {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 15px;
-}
-
-.form-item label {
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 6px;
-}
-
-.form-item input,
-.form-item select {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-/* 按钮样式 */
-.form-actions {
-    display: flex;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.form-actions button {
-    padding: 6px 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;   /* 默认白色背景 */
-    cursor: pointer;
-    font-size: 16px;
-    /*font-weight: bold;*/
-    color: #333;
-}
-
-.form-actions button:hover {
-    background-color: #f0f0f0;
-    border-color: #999;
-}
-
-
-/* ===== 导航栏 ===== */
-.navbar {
-    display: flex;
-    justify-content: space-between; /* 左右分布 */
-    align-items: center;
-    /*background-color: cornflowerblue;*/
-    background-color: #2c3e50; /* 主蓝色 */
-    padding: 0 20px;
-}
-
-/* 左侧 Logo */
-.navbar .logo {
-    /*color: aliceblue;*/
-    color: #fff;
-    font-size: 20px;
-    font-weight: bold;
-}
-
-/* 右侧菜单 */
-.navbar ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex; /* 横向排列 */
-}
-
-.navbar ul li {
-    margin-left: 20px; /* 每个菜单项之间的间隔 */
-}
-
-.navbar ul li a {
-    display: block;
-    color: #fff;
-    text-decoration: none;
-    padding: 14px 16px;
-    border-radius: 4px;
-    text-align: center;
-}
-
-.navbar ul li a:hover {
-    background-color: #95a5a6; /* hover 跳色 */
-}
-
-
-/* ===== 表格样式 ===== */
-
-table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-}
-
-th {
-    background-color: #f2f2f2;
-    text-align: left;
-}
-
-tr:hover {
-    background-color: #bdc3c7;
-}
-
-/* 每个月独立展示表格  */
-.styled-table {
-    border-collapse: collapse;
-    width: 100%;
-    margin: 20px 0;
-    font-size: 14px;
-    text-align: left;
-}
-
-.styled-table th, .styled-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-}
-
-/* 表头 */
-.styled-table th {
-    background-color: #2c3e50;
-    color: #fff;
-}
-
-
-/* 偶数行淡灰背景，增加可读性 */
-.styled-table tr:nth-child(even) {
-    background-color: #ecf0f1 ;
-}
-
-/* 鼠标 hover 高亮 */
-.styled-table tr:hover {
-    background-color: #bdc3c7;
-}
-
-/* ===== 总结框 ===== */
-.summary-box {
-    margin: 20px 0;
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    background-color: #fdfdfd;
-}
-
-.summary-box p {
-    font-size: 14px;
-    margin: 6px 0;
-}
-
-.summary-content {
-    display: flex;
-    align-items: center;      /* 垂直居中对齐 */
-    justify-content: space-between;
-    gap: 20px;                /* 左右留空隙 */
-}
-
-.summary-text {
-    flex: 1;                  /* 左侧文字占满剩余空间 */
-    font-size: 14px;
-}
-
-.summary-chart {
-    position: relative; /* 子要素を絶対位置で配置するための基準にする */
-    flex: 0 0 200px;           /* 固定宽度 200px */
-    height: 200px;             /* 高度 200px */
-}
-
-.summary-chart canvas {
-    width: 100% !important;   /* 让 Chart.js 适应容器 */
-    height: 100% !important;
-}
+/* ===== グラフ ===== */
 
 .chart-center-text {
     /* 親要素の中央に配置するおまじない */
     position: absolute;
-    top: 65%;
+    top: 31%;
     left: 50%;
     transform: translate(-50%, -50%);
 
@@ -322,49 +53,333 @@ tr:hover {
 
 .chart-center-text small {
     display: block; /* ブロック要素にして改行させる */
-    font-size: 14px;
-    color: dimgray;
 }
 
-.chart-container {
-    position: relative;
-    height: 300px;
-    width: 100%;
-}
-/* =======================*/
-.action-button {
-    /* 共通のスタイル */
-    display: inline-flex; /* アイコンとテキストを中央揃え */
-    align-items: center;
-    padding: 5px 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #f0f0f0;
-    color: #333;
-    text-decoration: none; /* リンクの下線を消す */
-    cursor: pointer;
-    font-family: inherit;
-    font-size: 14px;
-
-    /* formと横並びにするための調整 */
-    vertical-align: middle;
+/* 标题 */
+h1, h2 {
+    margin: 20px 0 10px;
+    font-weight: bold;
+    color: #2c3e50;
+    border-bottom: 2px solid #a9c1d9; /* 蓝色下划线 */
+    padding-bottom: 5px;
 }
 
-.action-button:hover {
-    background-color: #e0e0e0;
-}
+/*!* ========== 页面标题 ========== *!*/
+/*.page-header {*/
+/*    display: flex;*/
+/*    justify-content: flex-start;  !* 标题和按钮都靠左 *!*/
+/*    align-items: center;*/
+/*    margin-bottom: 15px;*/
+/*    gap: 10px;*/
+/*}*/
 
-.action-button i {
-    margin-right: 5px; /* アイコンとテキストの間に隙間を空ける */
-}
+/*.page-header h2 {*/
+/*    margin: 0;   !* 去掉标题多余间距 *!*/
+/*}*/
 
-/* フォームをインライン表示にするためのスタイル */
-.action-form {
-    display: inline-block;
-    vertical-align: middle;
-}
+/*.btn-add {*/
+/*    padding: 6px 14px;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 4px;*/
+/*    background-color: #fff;   !* 默认白色背景 *!*/
+/*    cursor: pointer;*/
+/*    font-size: 12px;*/
+/*    text-decoration: none;    !* 去掉下划线 *!*/
+/*    color: #333;*/
+/*}*/
 
-/* 各アクション間のスペース */
-.actions-cell > * {
-    margin-right: 8px;
-}
+/*.btn-add:hover {*/
+/*    background-color: #f0f0f0;*/
+/*    border-color: #999;*/
+/*}*/
+
+
+/*!* ========== 筛选区块 ========== *!*/
+/*.filter-box {*/
+/*    display: inline-flex;   !* 内部的 form 并排 *!*/
+/*    gap: 20px;              !* 两个 form 之间的间隔 *!*/
+/*    margin-bottom: 20px;*/
+/*    padding: 15px;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 6px;*/
+/*    background-color: #ecf0f1;*/
+/*}*/
+
+/*.filter-form {*/
+/*    display: flex;*/
+/*    align-items: center;    !* 输入框、按钮垂直居中 *!*/
+/*    gap: 20px;              !* 子项之间的间隔 *!*/
+/*    flex-wrap: wrap;        !* 窗口窄时自动换行 *!*/
+/*}*/
+
+/*.filter-item {*/
+/*    display: flex;*/
+/*    flex-direction: column; !* 标签在上，输入框/下拉框在下 *!*/
+/*    font-size: 14px;*/
+/*}*/
+
+/*.filter-item label {*/
+/*    margin-bottom: 4px;*/
+/*    font-weight: bold;*/
+/*}*/
+
+/*.filter-item input,*/
+/*.filter-item select {*/
+/*    padding: 6px 8px;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 4px;*/
+/*    font-size: 14px;*/
+/*}*/
+
+/*!* ========== 按钮样式（Search & Reset 统一） ========== *!*/
+/*.filter-box button {*/
+/*    padding: 6px 14px;*/
+/*    height: 32px;             !* 固定高度，保证对齐 *!*/
+/*    line-height: 1.2;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 4px;*/
+/*    background-color: #fff;   !* 默认白色背景 *!*/
+/*    cursor: pointer;*/
+/*    font-size: 12px;*/
+/*}*/
+
+/*.filter-box button:hover {*/
+/*    background-color: #f0f0f0;*/
+/*    border-color: #999;*/
+/*}*/
+
+
+/*p {*/
+/*    margin: 10px 0;*/
+/*    line-height: 1.6;*/
+/*}*/
+
+/*!* ========== 表单样式 ========== *!*/
+/*.form-box {*/
+/*    max-width: 500px;*/
+/*    margin: 20px auto;*/
+/*    padding: 20px;*/
+/*    background-color: #f9f9f9;*/
+/*    border: 1px solid #ddd;*/
+/*    border-radius: 8px;*/
+/*}*/
+
+/*.form-item {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    margin-bottom: 15px;*/
+/*}*/
+
+/*.form-item label {*/
+/*    font-size: 16px;*/
+/*    font-weight: bold;*/
+/*    margin-bottom: 6px;*/
+/*}*/
+
+/*.form-item input,*/
+/*.form-item select {*/
+/*    padding: 10px;*/
+/*    font-size: 16px;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 4px;*/
+/*}*/
+
+/*!* 按钮样式 *!*/
+/*.form-actions {*/
+/*    display: flex;*/
+/*    gap: 15px;*/
+/*    margin-top: 20px;*/
+/*}*/
+
+/*.form-actions button {*/
+/*    padding: 6px 14px;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 4px;*/
+/*    background-color: #fff;   !* 默认白色背景 *!*/
+/*    cursor: pointer;*/
+/*    font-size: 16px;*/
+/*    !*font-weight: bold;*!*/
+/*    color: #333;*/
+/*}*/
+
+/*.form-actions button:hover {*/
+/*    background-color: #f0f0f0;*/
+/*    border-color: #999;*/
+/*}*/
+
+
+/*!*!* ===== 导航栏 ===== *!*!*/
+/*!*.navbar {*!*/
+/*!*    display: flex;*!*/
+/*!*    justify-content: space-between; !* 左右分布 *!*!*/
+/*!*    align-items: center;*!*/
+/*!*    !*background-color: cornflowerblue;*!*!*/
+/*!*    background-color: #2c3e50; !* 主蓝色 *!*!*/
+/*!*    padding: 0 20px;*!*/
+/*!*}*!*/
+
+/*!*!* 左侧 Logo *!*!*/
+/*!*.navbar .logo {*!*/
+/*!*    !*color: aliceblue;*!*!*/
+/*!*    color: #fff;*!*/
+/*!*    font-size: 20px;*!*/
+/*!*    font-weight: bold;*!*/
+/*!*}*!*/
+
+/*!*!* 右侧菜单 *!*!*/
+/*!*.navbar ul {*!*/
+/*!*    list-style-type: none;*!*/
+/*!*    margin: 0;*!*/
+/*!*    padding: 0;*!*/
+/*!*    display: flex; !* 横向排列 *!*!*/
+/*!*}*!*/
+
+/*!*.navbar ul li {*!*/
+/*!*    margin-left: 20px; !* 每个菜单项之间的间隔 *!*!*/
+/*!*}*!*/
+
+/*!*.navbar ul li a {*!*/
+/*!*    display: block;*!*/
+/*!*    color: #fff;*!*/
+/*!*    text-decoration: none;*!*/
+/*!*    padding: 14px 16px;*!*/
+/*!*    border-radius: 4px;*!*/
+/*!*    text-align: center;*!*/
+/*!*}*!*/
+
+/*!*.navbar ul li a:hover {*!*/
+/*!*    background-color: #95a5a6; !* hover 跳色 *!*!*/
+/*!*}*!*/
+
+
+/*!* ===== 表格样式 ===== *!*/
+
+/*table {*/
+/*    border-collapse: collapse;*/
+/*    width: 100%;*/
+/*}*/
+
+/*th, td {*/
+/*    border: 1px solid #ddd;*/
+/*    padding: 8px;*/
+/*}*/
+
+/*th {*/
+/*    background-color: #f2f2f2;*/
+/*    text-align: left;*/
+/*}*/
+
+/*tr:hover {*/
+/*    background-color: #bdc3c7;*/
+/*}*/
+
+/*!* 每个月独立展示表格  *!*/
+/*.styled-table {*/
+/*    border-collapse: collapse;*/
+/*    width: 100%;*/
+/*    margin: 20px 0;*/
+/*    font-size: 14px;*/
+/*    text-align: left;*/
+/*}*/
+
+/*.styled-table th, .styled-table td {*/
+/*    border: 1px solid #ddd;*/
+/*    padding: 8px;*/
+/*}*/
+
+/*!* 表头 *!*/
+/*.styled-table th {*/
+/*    background-color: #2c3e50;*/
+/*    color: #fff;*/
+/*}*/
+
+
+/*!* 偶数行淡灰背景，增加可读性 *!*/
+/*.styled-table tr:nth-child(even) {*/
+/*    background-color: #ecf0f1 ;*/
+/*}*/
+
+/*!* 鼠标 hover 高亮 *!*/
+/*.styled-table tr:hover {*/
+/*    background-color: #bdc3c7;*/
+/*}*/
+
+/*!* ===== 总结框 ===== *!*/
+/*.summary-box {*/
+/*    margin: 20px 0;*/
+/*    padding: 15px;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 6px;*/
+/*    background-color: #fdfdfd;*/
+/*}*/
+
+/*.summary-box p {*/
+/*    font-size: 14px;*/
+/*    margin: 6px 0;*/
+/*}*/
+
+/*.summary-content {*/
+/*    display: flex;*/
+/*    align-items: center;      !* 垂直居中对齐 *!*/
+/*    justify-content: space-between;*/
+/*    gap: 20px;                !* 左右留空隙 *!*/
+/*}*/
+
+/*.summary-text {*/
+/*    flex: 1;                  !* 左侧文字占满剩余空间 *!*/
+/*    font-size: 14px;*/
+/*}*/
+
+/*.summary-chart {*/
+/*    position: relative; !* 子要素を絶対位置で配置するための基準にする *!*/
+/*    flex: 0 0 200px;           !* 固定宽度 200px *!*/
+/*    height: 200px;             !* 高度 200px *!*/
+/*}*/
+
+/*.summary-chart canvas {*/
+/*    width: 100% !important;   !* 让 Chart.js 适应容器 *!*/
+/*    height: 100% !important;*/
+/*}*/
+
+/*.chart-container {*/
+/*    position: relative;*/
+/*    height: 300px;*/
+/*    width: 100%;*/
+/*}*/
+/*!* =======================*!*/
+/*.action-button {*/
+/*    !* 共通のスタイル *!*/
+/*    display: inline-flex; !* アイコンとテキストを中央揃え *!*/
+/*    align-items: center;*/
+/*    padding: 5px 10px;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 4px;*/
+/*    background-color: #f0f0f0;*/
+/*    color: #333;*/
+/*    text-decoration: none; !* リンクの下線を消す *!*/
+/*    cursor: pointer;*/
+/*    font-family: inherit;*/
+/*    font-size: 14px;*/
+
+/*    !* formと横並びにするための調整 *!*/
+/*    vertical-align: middle;*/
+/*}*/
+
+/*.action-button:hover {*/
+/*    background-color: #e0e0e0;*/
+/*}*/
+
+/*.action-button i {*/
+/*    margin-right: 5px; !* アイコンとテキストの間に隙間を空ける *!*/
+/*}*/
+
+/*!* フォームをインライン表示にするためのスタイル *!*/
+/*.action-form {*/
+/*    display: inline-block;*/
+/*    vertical-align: middle;*/
+/*}*/
+
+/*!* 各アクション間のスペース *!*/
+/*.actions-cell > * {*/
+/*    margin-right: 8px;*/
+/*}*/

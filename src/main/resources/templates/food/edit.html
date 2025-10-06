@@ -2,42 +2,51 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Create or Update Exercise/Food</title>
+    <title>Create or Update Food</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/healthmanage.css">
 </head>
 
 <body>
 <div th:replace="fragments/navigationBar :: navbar"></div>
 
-<div class="container">
-    <h2>Edit Food Record</h2>
+<section>
+    <div class="container">
+        <h2>Edit Food Record</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card-body">
+                    <form th:action="@{/foods/{id}/update(id=${food.id})}" th:object="${food}" method="post">
 
-    <form th:action="@{/foods/{id}/update(id=${food.id})}" th:object="${food}" method="post" class="form-box">
+                        <div class="col-md-auto my-3">
+                            <label for="date" class="form-label fw-bold">Date:</label>
+                            <input type="datetime-local" id="date" th:field="*{date}" required class="form-control">
+                        </div>
 
-        <div class="form-item">
-            <label for="date">Date:</label>
-            <input type="datetime-local" id="date" th:field="*{date}" required>
+                        <div class="col-md-auto my-3">
+                            <label for="calories" class="form-label fw-bold">Calories(kcal):</label>
+                            <input type="number" id="calories" th:field="*{kilocalories}" min="1" required class="form-control">
+                        </div>
+
+                        <div class="col-md-auto my-3">
+                            <label for="foodType" class="form-label fw-bold">Food Type:</label>
+                            <select id="foodType" th:field="*{foodTypeId}" required class="form-select">
+                                <option th:each="type : ${types}"
+                                        th:value="${type.id}"
+                                        th:text="${type.foodName}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-auto">
+                            <button type="submit" class="btn btn-outline-primary">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-
-        <div class="form-item">
-            <label for="calories">Calories(kcal):</label>
-            <input type="number" id="calories" th:field="*{kilocalories}" min="1" required>
-        </div>
-
-        <div class="form-item">
-            <label for="foodType">Food Type:</label>
-            <select id="foodType" th:field="*{foodTypeId}" required>
-                <option th:each="type : ${types}"
-                        th:value="${type.id}"
-                        th:text="${type.foodName}">
-                </option>
-            </select>
-        </div>
-
-        <div class="form-actions">
-            <button type="submit">Update</button>
-        </div>
-    </form>
-</div>
+    </div>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
