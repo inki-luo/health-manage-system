@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,5 +34,19 @@ public class ExerciseTypeServiceImpl implements ExerciseTypeService {
         // DB 登録済みの運動種別名（アルファベット順）
         return exerciseTypeRepository.findAllExerciseTypeNames();
     }
+
+    @Override
+    public ExerciseType findOrCreateExerciseTypeByName(String exerciseTypeName) {
+
+        Optional<ExerciseType> existingType = exerciseTypeRepository.findByExerciseTypeName(exerciseTypeName);
+        if (existingType.isPresent()) {
+            return existingType.get();
+        }
+
+        ExerciseType newType = new ExerciseType();
+        newType.setExerciseTypeName(exerciseTypeName);
+        return exerciseTypeRepository.save(newType);
+    }
+
 
 }

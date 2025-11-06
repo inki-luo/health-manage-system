@@ -70,7 +70,7 @@ public class ExerciseController {
         model.addAttribute("selectedDate", date);
         model.addAttribute("selectedType", type);
 
-        return "/exercises/exerciseList";  // 返回一个 Thymeleaf 模板
+        return "exercises/exerciseList";  // 返回一个 Thymeleaf 模板
     }
 
     // ===================== 新增 =====================
@@ -79,7 +79,7 @@ public class ExerciseController {
         model.addAttribute("exercise", new Exercise());
         // 下拉框需要的类型
         model.addAttribute("types", exerciseTypeService.findAllExerciseTypes());
-        return "/exercises/create";
+        return "exercises/create";
     }
 
     @PostMapping("/new")
@@ -98,7 +98,7 @@ public class ExerciseController {
                         " - Field: " + (error instanceof FieldError ? ((FieldError) error).getField() : "N/A") +
                         " - Message: " + error.getDefaultMessage());
             });
-            return "/exercises/create";
+            return "exercises/create";
         }
 
         // フォームからのIDでExerciseTypeエンティティをロード
@@ -106,7 +106,7 @@ public class ExerciseController {
         // IDがnullでないことを確認
         if (typeIdFromForm  == null) {
             result.rejectValue("exerciseTypeId", "invalid", "Exercise Type must be selected");
-            return "/exercises/create";
+            return "exercises/create";
         }
 
         // データベースから完全な ExerciseType エンティティをロード
@@ -114,7 +114,7 @@ public class ExerciseController {
         if (fullExerciseType == null) {
             // IDが見つからない場合のエラー処理 (通常は発生しないはず)
             result.rejectValue("exerciseType", "invalid", "Invalid Exercise Type selected");
-            return "/exercises/create";
+            return "exercises/create";
         }
         // ロードしたExerciseTypeをExerciseオブジェクトにセット
         exercise.setExerciseType(fullExerciseType);
@@ -153,7 +153,7 @@ public class ExerciseController {
                         " - Field: " + (error instanceof FieldError ? ((FieldError) error).getField() : "N/A") +
                         " - Message: " + error.getDefaultMessage());
             });
-            return "/exercises/edit";
+            return "exercises/edit";
         }
 
         ExerciseType type = exerciseTypeRepository.findById(recordFromForm.getExerciseTypeId())
@@ -165,7 +165,7 @@ public class ExerciseController {
 
         if (recordFromForm.getKilocalories() != null && recordFromForm.getKilocalories()<= 0) {
             result.rejectValue("kilocalories", "invalid", "Calories must be positive");
-            return "/exercises/edit";
+            return "exercises/edit";
         }
 
         // エンティティのフィールドを更新

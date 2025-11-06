@@ -52,7 +52,7 @@ public class FoodController {
         model.addAttribute("selectedDate", date);
         model.addAttribute("selectedType", name);
 
-        return "/food/foodList";
+        return "food/foodList";
     }
 
     // ===================== 追加 =====================
@@ -61,7 +61,7 @@ public class FoodController {
         model.addAttribute("food", new Food());
         // 下拉框需要的类型
         model.addAttribute("types", foodTypeService.findAllFoodTypes());
-        return "/food/create";
+        return "food/create";
     }
 
     @PostMapping("/new")
@@ -81,7 +81,7 @@ public class FoodController {
                         " - Field: " + (error instanceof FieldError ? ((FieldError) error).getField() : "N/A") +
                         " - Message: " + error.getDefaultMessage());
             });
-            return "/food/create";
+            return "food/create";
         }
 
         // フォームからのIDでFoodTypeエンティティをロード
@@ -89,7 +89,7 @@ public class FoodController {
         // IDがnullでないことを確認
         if (typeIdFromForm  == null) {
             result.rejectValue("foodTypeId", "invalid", "Food Type must be selected");
-            return "/food/create";
+            return "food/create";
         }
 
         // データベースから完全な FoodType エンティティをロード
@@ -97,7 +97,7 @@ public class FoodController {
         if (fullFoodType == null) {
             // IDが見つからない場合のエラー処理 (通常は発生しないはず)
             result.rejectValue("foodType", "invalid", "Invalid Food Type selected");
-            return "/food/create";
+            return "food/create";
         }
         // ロードしたFoodTypeをFoodオブジェクトにセット
         food.setFoodType(fullFoodType);
@@ -135,7 +135,7 @@ public class FoodController {
                         " - Field: " + (error instanceof FieldError ? ((FieldError) error).getField() : "N/A") +
                         " - Message: " + error.getDefaultMessage());
             });
-            return "/food/edit";
+            return "food/edit";
         }
 
         FoodType type = foodTypeRepository.findById(recordFromForm.getFoodTypeId())
@@ -147,7 +147,7 @@ public class FoodController {
 
         if (recordFromForm.getKilocalories() != null && recordFromForm.getKilocalories()<= 0) {
             result.rejectValue("kilocalories", "invalid", "Calories must be positive");
-            return "/food/edit";
+            return "food/edit";
         }
 
         // エンティティのフィールドを更新
