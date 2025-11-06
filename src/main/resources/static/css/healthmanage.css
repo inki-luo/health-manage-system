@@ -34,7 +34,14 @@ body {
     box-shadow: 0 2px 6px rgba(0,0,0,0.1); /* 阴影 */
     height: 384px;
 }
-
+.login-container {
+    max-width: 400px;
+    margin-top: 100px;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, .05);
+}
 /* ===== グラフ ===== */
 
 .chart-center-text {
